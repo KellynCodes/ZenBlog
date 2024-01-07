@@ -32,6 +32,12 @@ export class PostService {
     );
   }
 
+  deletePost(postId: string): Observable<HttpResponse<any>> {
+    return this.http.delete<HttpResponse<PostDto>>(
+      `https://dummyapi.io/data/v1/post/${postId}`
+    );
+  }
+
   UpdatePost(
     postId: string,
     updatedPost: PostDto

@@ -9,9 +9,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('../node_modules/bootstrap/dist/css/bootstrap.min.css');
- @import url("../node_modules/glightbox/dist/css/glightbox.min.css");
-
  
 .slick-dots li button::before{
   content: "";

@@ -1,5 +1,8 @@
 <!-- ======= Post Grid Section ======= -->
-<section id="posts" class="posts">
+@if(posts() == null){
+<h2>No Post Found!.</h2>
+}@if(posts()){
+<section id="posts" class="posts !mt-8">
   <div class="container" data-aos="fade-up">
     <div class="row g-5">
       <div class="col-lg-4">
@@ -15,7 +18,9 @@
             <span> {{ posts()![0].publishDate }} </span>
           </div>
           <h2>
-            <a href="single-post.html">{{ posts()![0].text }}</a>
+            <a [routerLink]="['post', posts()![0].id]">{{
+              posts()![0].text
+            }}</a>
           </h2>
           <p class="mb-4 d-block">
             {{ posts()![0].content }}
@@ -86,3 +91,4 @@
   </div>
 </section>
 <!-- End Post Grid Section -->
+}

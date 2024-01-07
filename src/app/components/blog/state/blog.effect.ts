@@ -103,13 +103,29 @@ export class PostEffect {
     )
   );
 
-  updateCourseRequest$ = createEffect(() =>
+  updatePostRequest$ = createEffect(() =>
     this.actions$.pipe(
       ofType(postActions.UpdatePost),
       exhaustMap((action) =>
         this.postService.UpdatePost(action.postId, action.post).pipe(
           map((res) => {
             return postActions.Success({ posts: res.data! });
+          }),
+          catchError((error) => {
+            return of(postActions.PostFailure(error.error?.message));
+          })
+        )
+      )
+    )
+  );
+
+  deletePostRequest$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(postActions.DeletePost),
+      exhaustMap((action) =>
+        this.postService.deletePost(action.postId).pipe(
+          map((res) => {
+            return postActions.ResetPostFetchState();
           }),
           catchError((error) => {
             return of(postActions.PostFailure(error.error?.message));

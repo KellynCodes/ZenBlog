@@ -38,6 +38,12 @@
   </section>
   <!-- End Hero Slider Section -->
 
+  @defer {
   <blog-posts />
+  } @placeholder (minimum 500ms) {
+  <blog-loader loadingText="Loading post..." />
+  }@error {
+  <h2>Failed to load Posts component.</h2>
+  }
 </main>
 <!-- End #main -->

@@ -1,17 +1,18 @@
 import { AppState } from './../../state/app/app.state';
 import { CommonModule } from '@angular/common';
-import { Component, Signal } from '@angular/core';
+import { Component, Signal, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LoaderComponent, PostsComponent } from '../../components';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { Store } from '@ngrx/store';
 import {
   IsPostLoading,
-  getCourses,
+  getPosts,
 } from '../../components/blog/state/blog.state';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { PostDto } from '../../../services/post/Dto/post.dto';
 import { LoadPosts } from '../../components/blog/state/blog.action';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'blog-home',
@@ -27,16 +28,30 @@ import { LoadPosts } from '../../components/blog/state/blog.action';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
-  posts$ = this.store.select(getCourses);
-  posts!: Signal<PostDto[] | null>;
+  posts$ = this.store.select(getPosts);
+  posts = signal<PostDto[] | null>(null);
   isPostLoading$ = this.store.select(IsPostLoading);
   isPostLoading!: Signal<boolean>;
+  public ngUnSubscribe = new Subject();
+
   constructor(private store: Store<AppState>) {
-    this.store.dispatch(
-      LoadPosts({ query: { page: 1, limit: 10, keyword: '' } })
-    );
     this.isPostLoading = toSignal(this.isPostLoading$, { initialValue: false });
-    this.posts = toSignal(this.posts$, { initialValue: null });
+    this.posts$.pipe(takeUntil(this.ngUnSubscribe)).subscribe((posts) => {
+      if (posts == null) {
+        this.store.dispatch(
+          LoadPosts({ query: { page: 1, limit: 10, keyword: '' } })
+        );
+        this.posts.set(posts);
+        return;
+      }
+      this.posts.set(posts);
+    });
+  }
+
+  ngOnInit(): void {}
+
+  ngOnDestroy(): void {
+    this.ngUnSubscribe.complete();
   }
 
   sliderConfig = {
@@ -50,6 +65,4 @@ export class HomeComponent {
     slidesToScroll: 1,
     initialSlide: 0,
   };
-
-  ngOnInit(): void {}
 }

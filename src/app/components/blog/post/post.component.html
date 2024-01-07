@@ -1,18 +1,18 @@
 <section class="single-post-content">
   <div class="container">
     <div class="row">
-      @if (isPostLoading()) {
-      <blog-loader loadingText="Loading Post..." />
-      } @else if (post == null) {
-      <h1>NO Post found.</h1>
-      }@else {
       <div class="col-md-9 post-content" data-aos="fade-up">
+        @if (post == null) {
+        <h1>No Post Found!.</h1>
+        } @else if (isPostLoading()) {
+        <blog-loader loadingText="Loading Post..." />
+        }@else {
         <!-- ======= Single Post Content ======= -->
         <div class="single-post">
           <div class="post-meta">
             <span class="date"> {{ post.tags![0] }} </span>
             <span class="mx-1">&bullet;</span>
-            <span> {{ post.publishDate }} </span>
+            <span> {{ post.publishDate | date }} </span>
           </div>
           <h1 class="mb-5">
             {{ post.text }}
@@ -28,9 +28,23 @@
             <img
               [src]="post.image"
               alt=""
-              class="!w-full md:!w-[55rem] !max-h-[90vh] mt-8 img-fluid"
+              class="!w-full md:!w-[50rem] bg-cover !max-h-[90vh] mt-8 img-fluid"
             />
             <figcaption>
+              <div>
+                <a
+                  class="btn btn-primary"
+                  routerLink="/post/{{ post.id }}/update"
+                  >Update Post</a
+                >
+                <button
+                  class="btn btn-danger"
+                  type="button"
+                  (click)="deletePost(post.id)"
+                >
+                  {{ isPostLoading() ? "Deleting." : "Delete Post" }}
+                </button>
+              </div>
               {{ post.title }}
             </figcaption>
           </figure>
@@ -38,9 +52,9 @@
             {{ post.content }}
           </p>
         </div>
+        }
         <!-- End Single Post Content -->
       </div>
-      }
 
       <div class="col-md-3">
         <!-- ======= Sidebar ======= -->
@@ -102,85 +116,24 @@
               role="tabpanel"
               aria-labelledby="pills-popular-tab"
             >
+              @for (post of posts$ | async; track post.id) {
               <div class="post-entry-1 border-bottom">
                 <div class="post-meta">
-                  <span class="date">Sport</span>
-                  <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span>
+                  <span class="date">{{ (post?.tags)![0]! }}</span>
+                  <span class="mx-1">&bullet;</span>
+                  <span>{{ post?.publishDate | date }}</span>
                 </div>
                 <h2 class="mb-2">
-                  <a href="#"
-                    >How to Avoid Distraction and Stay Focused During Video
-                    Calls?</a
-                  >
+                  <a class="cursor-pointer" (click)="getPost(post.id)">{{
+                    post.text
+                  }}</a>
                 </h2>
-                <span class="author mb-3 d-block">Jenny Wilson</span>
+                <span class="author mb-3 d-block">
+                  {{ post.owner.firstName + " " + post.owner.lastName }}
+                </span>
               </div>
 
-              <div class="post-entry-1 border-bottom">
-                <div class="post-meta">
-                  <span class="date">Lifestyle</span>
-                  <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span>
-                </div>
-                <h2 class="mb-2">
-                  <a href="#"
-                    >17 Pictures of Medium Length Hair in Layers That Will
-                    Inspire Your New Haircut</a
-                  >
-                </h2>
-                <span class="author mb-3 d-block">Jenny Wilson</span>
-              </div>
-
-              <div class="post-entry-1 border-bottom">
-                <div class="post-meta">
-                  <span class="date">Culture</span>
-                  <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span>
-                </div>
-                <h2 class="mb-2">
-                  <a href="#"
-                    >9 Half-up/half-down Hairstyles for Long and Medium Hair</a
-                  >
-                </h2>
-                <span class="author mb-3 d-block">Jenny Wilson</span>
-              </div>
-
-              <div class="post-entry-1 border-bottom">
-                <div class="post-meta">
-                  <span class="date">Lifestyle</span>
-                  <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span>
-                </div>
-                <h2 class="mb-2">
-                  <a href="#"
-                    >Life Insurance And Pregnancy: A Working Mom’s Guide</a
-                  >
-                </h2>
-                <span class="author mb-3 d-block">Jenny Wilson</span>
-              </div>
-
-              <div class="post-entry-1 border-bottom">
-                <div class="post-meta">
-                  <span class="date">Business</span>
-                  <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span>
-                </div>
-                <h2 class="mb-2">
-                  <a href="#"
-                    >The Best Homemade Masks for Face (keep the Pimples Away)</a
-                  >
-                </h2>
-                <span class="author mb-3 d-block">Jenny Wilson</span>
-              </div>
-
-              <div class="post-entry-1 border-bottom">
-                <div class="post-meta">
-                  <span class="date">Lifestyle</span>
-                  <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span>
-                </div>
-                <h2 class="mb-2">
-                  <a href="#"
-                    >10 Life-Changing Hacks Every Working Mom Should Know</a
-                  >
-                </h2>
-                <span class="author mb-3 d-block">Jenny Wilson</span>
-              </div>
+              }
             </div>
             <!-- End Popular -->
 
@@ -191,176 +144,55 @@
               role="tabpanel"
               aria-labelledby="pills-trending-tab"
             >
+              @for (post of posts$ | async; track post.id) {
               <div class="post-entry-1 border-bottom">
                 <div class="post-meta">
-                  <span class="date">Lifestyle</span>
-                  <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span>
+                  <span class="date">{{ (post?.tags)![0]! }}</span>
+                  <span class="mx-1">&bullet;</span>
+                  <span>{{ post?.publishDate | date }}</span>
                 </div>
                 <h2 class="mb-2">
-                  <a href="#"
-                    >17 Pictures of Medium Length Hair in Layers That Will
-                    Inspire Your New Haircut</a
-                  >
+                  <a class="cursor-pointer" (click)="getPost(post.id)">{{
+                    post.text
+                  }}</a>
                 </h2>
-                <span class="author mb-3 d-block">Jenny Wilson</span>
+                <span class="author mb-3 d-block">
+                  {{ post.owner.firstName + " " + post.owner.lastName }}
+                </span>
               </div>
 
-              <div class="post-entry-1 border-bottom">
-                <div class="post-meta">
-                  <span class="date">Culture</span>
-                  <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span>
-                </div>
-                <h2 class="mb-2">
-                  <a href="#"
-                    >9 Half-up/half-down Hairstyles for Long and Medium Hair</a
-                  >
-                </h2>
-                <span class="author mb-3 d-block">Jenny Wilson</span>
-              </div>
-
-              <div class="post-entry-1 border-bottom">
-                <div class="post-meta">
-                  <span class="date">Lifestyle</span>
-                  <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span>
-                </div>
-                <h2 class="mb-2">
-                  <a href="#"
-                    >Life Insurance And Pregnancy: A Working Mom’s Guide</a
-                  >
-                </h2>
-                <span class="author mb-3 d-block">Jenny Wilson</span>
-              </div>
-
-              <div class="post-entry-1 border-bottom">
-                <div class="post-meta">
-                  <span class="date">Sport</span>
-                  <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span>
-                </div>
-                <h2 class="mb-2">
-                  <a href="#"
-                    >How to Avoid Distraction and Stay Focused During Video
-                    Calls?</a
-                  >
-                </h2>
-                <span class="author mb-3 d-block">Jenny Wilson</span>
-              </div>
-              <div class="post-entry-1 border-bottom">
-                <div class="post-meta">
-                  <span class="date">Business</span>
-                  <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span>
-                </div>
-                <h2 class="mb-2">
-                  <a href="#"
-                    >The Best Homemade Masks for Face (keep the Pimples Away)</a
-                  >
-                </h2>
-                <span class="author mb-3 d-block">Jenny Wilson</span>
-              </div>
-
-              <div class="post-entry-1 border-bottom">
-                <div class="post-meta">
-                  <span class="date">Lifestyle</span>
-                  <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span>
-                </div>
-                <h2 class="mb-2">
-                  <a href="#"
-                    >10 Life-Changing Hacks Every Working Mom Should Know</a
-                  >
-                </h2>
-                <span class="author mb-3 d-block">Jenny Wilson</span>
-              </div>
+              }
             </div>
-            <!-- End Trending -->
-
-            <!-- Latest -->
-            <div
-              class="tab-pane fade"
-              id="pills-latest"
-              role="tabpanel"
-              aria-labelledby="pills-latest-tab"
-            >
-              <div class="post-entry-1 border-bottom">
-                <div class="post-meta">
-                  <span class="date">Lifestyle</span>
-                  <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span>
-                </div>
-                <h2 class="mb-2">
-                  <a href="#"
-                    >Life Insurance And Pregnancy: A Working Mom’s Guide</a
-                  >
-                </h2>
-                <span class="author mb-3 d-block">Jenny Wilson</span>
-              </div>
-
-              <div class="post-entry-1 border-bottom">
-                <div class="post-meta">
-                  <span class="date">Business</span>
-                  <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span>
-                </div>
-                <h2 class="mb-2">
-                  <a href="#"
-                    >The Best Homemade Masks for Face (keep the Pimples Away)</a
-                  >
-                </h2>
-                <span class="author mb-3 d-block">Jenny Wilson</span>
-              </div>
-
-              <div class="post-entry-1 border-bottom">
-                <div class="post-meta">
-                  <span class="date">Lifestyle</span>
-                  <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span>
-                </div>
-                <h2 class="mb-2">
-                  <a href="#"
-                    >10 Life-Changing Hacks Every Working Mom Should Know</a
-                  >
-                </h2>
-                <span class="author mb-3 d-block">Jenny Wilson</span>
-              </div>
-
-              <div class="post-entry-1 border-bottom">
-                <div class="post-meta">
-                  <span class="date">Sport</span>
-                  <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span>
-                </div>
-                <h2 class="mb-2">
-                  <a href="#"
-                    >How to Avoid Distraction and Stay Focused During Video
-                    Calls?</a
-                  >
-                </h2>
-                <span class="author mb-3 d-block">Jenny Wilson</span>
-              </div>
-
-              <div class="post-entry-1 border-bottom">
-                <div class="post-meta">
-                  <span class="date">Lifestyle</span>
-                  <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span>
-                </div>
-                <h2 class="mb-2">
-                  <a href="#"
-                    >17 Pictures of Medium Length Hair in Layers That Will
-                    Inspire Your New Haircut</a
-                  >
-                </h2>
-                <span class="author mb-3 d-block">Jenny Wilson</span>
-              </div>
-
-              <div class="post-entry-1 border-bottom">
-                <div class="post-meta">
-                  <span class="date">Culture</span>
-                  <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span>
-                </div>
-                <h2 class="mb-2">
-                  <a href="#"
-                    >9 Half-up/half-down Hairstyles for Long and Medium Hair</a
-                  >
-                </h2>
-                <span class="author mb-3 d-block">Jenny Wilson</span>
-              </div>
-            </div>
-            <!-- End Latest -->
           </div>
+        </div>
+        <!-- End Trending -->
+
+        <!-- Latest -->
+        <div
+          class="tab-pane fade"
+          id="pills-latest"
+          role="tabpanel"
+          aria-labelledby="pills-latest-tab"
+        >
+          @for (post of posts$ | async; track post.id) {
+          <div class="post-entry-1 border-bottom">
+            <div class="post-meta">
+              <span class="date">{{ (post?.tags)![0]! }}</span>
+              <span class="mx-1">&bullet;</span>
+              <span>{{ post?.publishDate | date }}</span>
+            </div>
+            <h2 class="mb-2">
+              <a class="cursor-pointer" (click)="getPost(post.id)">{{
+                post.text
+              }}</a>
+            </h2>
+            <span class="author mb-3 d-block">
+              {{ post.owner.firstName + " " + post.owner.lastName }}
+            </span>
+          </div>
+
+          }
+          <!-- End Latest -->
         </div>
 
         <div class="aside-block">

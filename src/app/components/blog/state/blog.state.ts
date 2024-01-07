@@ -1,7 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { PostDto } from '../../../../services/post/Dto/post.dto';
 
-export const POST_STATE_NAME = 'course';
+export const POST_STATE_NAME = 'post';
 
 export interface PostState {
   posts: PostDto[] | null;
@@ -18,7 +18,7 @@ export const initialPostState: PostState = {
 export const PostStateSelector =
   createFeatureSelector<PostState>(POST_STATE_NAME);
 
-export const getCourses = createSelector(
+export const getPosts = createSelector(
   PostStateSelector,
   (state) => state.posts
 );

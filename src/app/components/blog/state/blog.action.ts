@@ -23,7 +23,7 @@ export const GetCourseSuccess = createAction(
 
 export const DeletePost = createAction(
   '[POST API] Delete Post',
-  props<{ post: PostDto; IsPostLoading: boolean }>()
+  props<{ postId: string; isDeleting: boolean }>()
 );
 
 export const LoadPosts = createAction(

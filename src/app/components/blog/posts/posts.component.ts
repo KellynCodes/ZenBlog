@@ -1,9 +1,8 @@
 import { Component, Signal, computed } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { IsPostLoading, getCourses } from '../state/blog.state';
+import { IsPostLoading, getPosts } from '../state/blog.state';
 import { PostDto } from '../../../../services/post/Dto/post.dto';
-import { LoadPosts } from '../state/blog.action';
 import { AppState } from '../../../state/app/app.state';
 import { RouterLink } from '@angular/router';
 
@@ -15,7 +14,7 @@ import { RouterLink } from '@angular/router';
   styleUrl: './posts.component.scss',
 })
 export class PostsComponent {
-  posts$ = this.store.select(getCourses);
+  posts$ = this.store.select(getPosts);
   posts!: Signal<PostDto[] | null>;
   isPostLoading$ = this.store.select(IsPostLoading);
   isPostLoading!: Signal<boolean>;

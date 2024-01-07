@@ -1,5 +1,5 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import { initialPostState } from './blog.state';
+import { errorMessage, initialPostState } from './blog.state';
 import * as postActions from './blog.action';
 
 const _postReducer = createReducer(
@@ -9,6 +9,16 @@ const _postReducer = createReducer(
       ...state,
       IsLoading: true,
       errorMessage: '',
+    };
+  }),
+
+  on(postActions.DeletePost, (state, action) => {
+    const posts = state.posts!.filter((course) => course.id !== action.postId);
+    return {
+      ...state,
+      posts: posts,
+      IsLoading: false,
+      errorMessage: null,
     };
   }),
 
@@ -25,6 +35,14 @@ const _postReducer = createReducer(
     return {
       ...state,
       errorMessage: action.errorMessage,
+      IsLoading: false,
+    };
+  }),
+
+  on(postActions.ResetPostFetchState, (state, action) => {
+    return {
+      ...state,
+      errorMessage: null,
       IsLoading: false,
     };
   })

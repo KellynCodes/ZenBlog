@@ -2,8 +2,8 @@ import { Component, isDevMode, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { FooterComponent, NavbarComponent } from './components';
-import * as AOS from 'aos';
-import * as GLightbox from 'glightbox';
+import * as Aos from 'aos';
+import GLightbox from 'glightbox';
 
 @Component({
   selector: 'blog-root',
@@ -14,7 +14,12 @@ import * as GLightbox from 'glightbox';
 })
 export class AppComponent {
   ngOnInit() {
-    AOS.init();
+    Aos.init({
+      duration: 1000,
+      easing: 'ease-in-out',
+      once: true,
+      mirror: false,
+    });
 
     const glightbox = GLightbox({
       selector: '.glightbox',

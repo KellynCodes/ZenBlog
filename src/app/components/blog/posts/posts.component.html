@@ -1,0 +1,88 @@
+<!-- ======= Post Grid Section ======= -->
+<section id="posts" class="posts">
+  <div class="container" data-aos="fade-up">
+    <div class="row g-5">
+      <div class="col-lg-4">
+        <div class="post-entry-1 lg">
+          <a [routerLink]="['/post', posts()![0].id]"
+            ><img [src]="posts()![0].image" alt="" class="img-fluid"
+          /></a>
+          <div class="post-meta">
+            @for (tag of posts()![0].tags; track $index) {
+            <span class="date">{{ tag }}</span>
+            }
+            <span class="mx-1">&bullet;</span>
+            <span> {{ posts()![0].publishDate }} </span>
+          </div>
+          <h2>
+            <a href="single-post.html">{{ posts()![0].text }}</a>
+          </h2>
+          <p class="mb-4 d-block">
+            {{ posts()![0].content }}
+          </p>
+
+          <div class="d-flex align-items-center author">
+            <div class="photo">
+              <img [src]="posts()![0].owner.picture" alt="" class="img-fluid" />
+            </div>
+            <div class="name">
+              <h3 class="m-0 p-0">{{ posts()![0].owner.firstName }}</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-8">
+        <div class="row g-5">
+          @for (post of posts(); track post.id) {
+          <div class="col-lg-4 border-start custom-border">
+            <div class="post-entry-1">
+              <a [routerLink]="['/post', post.id]"
+                ><img [src]="post.image" alt="" class="img-fluid"
+              /></a>
+              <div class="post-meta">
+                @for (tag of post.tags; track $index) {
+                <span class="date">{{ tag }}</span>
+                }
+                <span class="mx-1">&bullet;</span>
+                <span> {{ post.publishDate }} </span>
+              </div>
+              <h2>
+                <a [routerLink]="['/post', post.id]"> {{ post.text }} </a>
+              </h2>
+            </div>
+          </div>
+
+          }
+          <!-- Trending Section -->
+          <div class="col-lg-4">
+            <div class="trending">
+              <h3>Trending</h3>
+              <ul class="trending-post">
+                @for (trendingPost of posts(); track trendingPost.id) {
+                <li>
+                  <a [routerLink]="['/post', trendingPost.id]">
+                    <span class="number">1</span>
+                    <h3>
+                      {{ trendingPost.text }}
+                    </h3>
+                    <span class="author">
+                      {{
+                        trendingPost.owner.firstName +
+                          trendingPost.owner.lastName
+                      }}
+                    </span>
+                  </a>
+                </li>
+                }
+              </ul>
+            </div>
+          </div>
+          <!-- End Trending Section -->
+        </div>
+      </div>
+    </div>
+    <!-- End .row -->
+  </div>
+</section>
+<!-- End Post Grid Section -->

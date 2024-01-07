@@ -1,0 +1,43 @@
+<main id="main">
+  <!-- ======= Hero Slider Section ======= -->
+  <section id="hero-slider" class="hero-slider">
+    <div class="container-md" data-aos="fade-in">
+      <div class="row">
+        <div class="col-12">
+          <div class="swiper sliderFeaturedPosts">
+            @if (isPostLoading()) {
+            <blog-loader loadingText="Loading Post..." />
+            }@else {
+            <ngx-slick-carousel
+              class="swiper-wrapper"
+              #slickModal="slick-carousel"
+              [config]="sliderConfig"
+            >
+              @for (post of posts(); track post.id) {
+              <div ngxSlickItem class="swiper-slide">
+                <a
+                  [routerLink]="['/post', post.id]"
+                  class="img-bg d-flex align-items-end"
+                  style="background-image: url('{{ post.image }}')"
+                >
+                  <div class="img-bg-inner">
+                    <h2>
+                      {{ post.text }}
+                    </h2>
+                  </div>
+                </a>
+              </div>
+
+              }
+            </ngx-slick-carousel>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End Hero Slider Section -->
+
+  <blog-posts />
+</main>
+<!-- End #main -->

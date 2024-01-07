@@ -1,24 +1,78 @@
- @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Tajawal:300,400,500,700&display=swap&subset=arabic');
+*, *::after *::before{
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing:  border-box;
+}
 
 @tailwind base;
-
 @tailwind components;
-
 @tailwind utilities;
 
-    ::-webkit-scrollbar {
-        width: 5px;
-    }
+@import url('../node_modules/bootstrap/dist/css/bootstrap.min.css');
+ @import url("../node_modules/glightbox/dist/css/glightbox.min.css");
 
-    ::-webkit-scrollbar-track {
-        background: #2D3748;
-    }
+ 
+.slick-dots li button::before{
+  content: "";
+ font-size: 10px !important;
+}
 
-    ::-webkit-scrollbar-thumb {
-        background: #CBD5E0;
-    }
+.slick-dots li:hover button::before{
+ font-size: 20px !important;
+ color: #ef4444cd !important;
+}
 
-    ::-webkit-scrollbar-thumb:hover {
-        background: #2D3748;
-    }
+.slick-dots .slick-active button::before{
+ font-size: 20px !important;
+   color: #ef4444cd !important;
+   color: transparent;
+}
+
+.slick-prev::before,
+.slick-next::before {
+  background-color: #fff !important;
+  color: #ef4444cd !important;
+  border-radius: 50%;
+}
+
+@media(max-width: 640px){
+  .slick-prev::before,
+.slick-next::before {
+  display: none !important;
+}
+}
+
+/* Define the styles for the scrollbar track and thumb */
+/* Define the styles for the scrollbar track and thumb */
+/* This will work in some modern browsers (e.g., Chrome) */
+
+/* Track (the background of the scrollbar) */
+::-webkit-scrollbar {
+  @apply w-2;
+}
+
+/* Thumb (the draggable part) */
+::-webkit-scrollbar-thumb {
+ @apply bg-primary rounded-md transition-all duration-200;
+}
+
+/* Handle when the user hovers over the thumb */
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary cursor-grab;
+}
+
+/* Track (background of the scrollbar) when not hovering over the thumb */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle when the user hovers over the track */
+::-webkit-scrollbar-track:hover {
+  background: #ddd;
+}
+
+/* Corner (between the vertical and horizontal scrollbars) */
+::-webkit-scrollbar-corner {
+  background: #f1f1f1;
+}

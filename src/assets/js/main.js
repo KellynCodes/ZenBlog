@@ -79,6 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
    */
   const scrollTop = document.querySelector(".scroll-top");
   if (scrollTop) {
+    console.log(scrollTop);
     const togglescrollTop = function () {
       window.scrollY > 100
         ? scrollTop.classList.add("active")

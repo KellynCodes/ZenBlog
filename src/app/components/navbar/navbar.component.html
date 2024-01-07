@@ -5,11 +5,11 @@
   >
     <a routerLink="/" class="logo d-flex align-items-center">
       <!-- Uncomment the line below if you also wish to use an image logo -->
-      <!-- <img src="assets/img/logo.png" alt=""> -->
-      <h1>ZenBlog</h1>
+      <img src="assets/img/logo.png" alt="" />
+      <h1 class="logo">ZenBlog</h1>
     </a>
 
-    <nav id="navbar" class="navbar">
+    <nav id="navbar" class="navbar position-relative">
       <ul>
         <li><a routerLink="/">Home</a></li>
         <li><a routerLink="/posts">Posts</a></li>
@@ -40,33 +40,41 @@
           </ul>
         </li> -->
 
-        <li><a routerLink="/about">About</a></li>
-        <li><a routerLink="/contact">Contact</a></li>
+        <li><a routerLink="/new-post">Create Post</a></li>
+        <a href="#" class="mx-2 js-search-open"
+          ><span class="bi-search"></span
+        ></a>
       </ul>
+      <!-- ======= Search Form ======= -->
+      <div class="search-form-wrap js-search-form-wrap">
+        <form
+          [formGroup]="searchForm"
+          (ngSubmit)="onSubmit()"
+          class="search-form"
+        >
+          <span class="icon bi-search"></span>
+          <input
+            type="text"
+            placeholder="Search Posts"
+            formControlName="searchKeyword"
+            class="form-control"
+          />
+          <button type="button" class="btn js-search-close">
+            <span class="bi-x"></span>
+          </button>
+          <button [disabled]="isSending()" type="submit" hidden></button>/>
+        </form>
+      </div>
+      <!-- End Search Form -->
     </nav>
     <!-- .navbar -->
 
-    <div class="position-relative">
+    <div class="">
       <a href="#" class="mx-2"><span class="bi-facebook"></span></a>
       <a href="#" class="mx-2"><span class="bi-twitter"></span></a>
       <a href="#" class="mx-2"><span class="bi-instagram"></span></a>
 
-      <a href="#" class="mx-2 js-search-open"
-        ><span class="bi-search"></span
-      ></a>
       <i class="bi bi-list mobile-nav-toggle"></i>
-
-      <!-- ======= Search Form ======= -->
-      <div class="search-form-wrap js-search-form-wrap">
-        <form action="search-result.html" class="search-form">
-          <span class="icon bi-search"></span>
-          <input type="text" placeholder="Search" class="form-control" />
-          <button class="btn js-search-close">
-            <span class="bi-x"></span>
-          </button>
-        </form>
-      </div>
-      <!-- End Search Form -->
     </div>
   </div>
 </header>

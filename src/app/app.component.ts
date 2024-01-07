@@ -1,4 +1,4 @@
-import { Component, isDevMode, signal } from '@angular/core';
+import { Component, afterNextRender, isDevMode, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { FooterComponent, NavbarComponent } from './components';
@@ -13,16 +13,20 @@ import GLightbox from 'glightbox';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  ngOnInit() {
-    Aos.init({
-      duration: 1000,
-      easing: 'ease-in-out',
-      once: true,
-      mirror: false,
-    });
+  constructor() {
+    afterNextRender(() => {
+      Aos.init({
+        duration: 1000,
+        easing: 'ease-in-out',
+        once: true,
+        mirror: false,
+      });
 
-    const glightbox = GLightbox({
-      selector: '.glightbox',
+      // const glightbox = GLightbox({
+      //   selector: '.glightbox',
+      // });
     });
   }
+
+  ngOnInit() {}
 }

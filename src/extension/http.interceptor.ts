@@ -14,6 +14,7 @@ import {
   selectToken,
   setErrorMessage,
 } from '../app/state/shared/shared.action';
+import { environment } from '../environments/environment';
 // ... other imports ...
 
 @Injectable({
@@ -34,14 +35,20 @@ export class JwtTokenInterceptor implements HttpInterceptor {
             'app-id',
             '6597c0d018bdf61802c5fdf4'
           );
-          const clonedRequest = request.clone({ headers });
+          const clonedRequest = request.clone({
+            headers,
+            url: `${environment.apiUrl}${request.url}` || request.url,
+          });
           return next.handle(clonedRequest);
         }
 
         const headers: HttpHeaders = request.headers
           .set('Authorization', `Bearer ${token}`)
           .set('app-id', '6597c0d018bdf61802c5fdf4');
-        const clonedRequest = request.clone({ headers });
+        const clonedRequest = request.clone({
+          headers,
+          url: `${environment.apiUrl}${request.url}` || request.url,
+        });
         return next.handle(clonedRequest);
       }),
       catchError((error) => {

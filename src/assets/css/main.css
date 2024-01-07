@@ -31,13 +31,17 @@ a:hover {
   text-decoration: none;
 }
 
+.logo {
+  font-family: var(--color-primary);
+}
+
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-primary);
+  font-family: var(--font-default);
 }
 
 /*--------------------------------------------------------------
@@ -143,7 +147,7 @@ section {
   font-size: 30px;
   font-weight: 700;
   color: var(--color-default);
-  font-family: var(--font-primary);
+  font-family: var(--font-default);
 }
 
 .search-form-wrap {
@@ -369,7 +373,7 @@ section {
     align-items: center;
     justify-content: space-between;
     padding: 10px 20px;
-    font-family: var(--font-primary);
+    font-family: var(--font-default);
     font-size: 15px;
     font-weight: 600;
     color: var(--color-primary);
@@ -479,7 +483,7 @@ section {
   letter-spacing: 0.07rem;
   text-transform: uppercase;
   font-weight: 600;
-  font-family: var(--font-secondary);
+  font-family: var(--font-default);
   color: rgba(var(--color-black-rgb), 0.4);
   margin-bottom: 10px;
 }
@@ -504,7 +508,7 @@ section {
   margin: 0;
   padding: 0;
   font-size: 15px;
-  font-family: var(--font-secondary);
+  font-family: var(--font-default);
 }
 
 .trending {
@@ -574,7 +578,7 @@ section {
   letter-spacing: 0.07rem;
   text-transform: uppercase;
   font-weight: 600;
-  font-family: var(--font-secondary);
+  font-family: var(--font-default);
   color: rgba(var(--color-black-rgb), 0.4);
   margin-bottom: 10px;
 }
@@ -721,7 +725,7 @@ section {
 }
 
 .more {
-  font-family: var(--font-secondary);
+  font-family: var(--font-default);
   text-transform: uppercase;
   font-size: 12px;
   font-weight: 500;
@@ -778,7 +782,7 @@ section {
 }
 
 .post-content figure figcaption {
-  font-family: var(--font-secondary);
+  font-family: var(--font-default);
   font-size: 14px;
   padding: 10px 0 0 0;
 }
@@ -804,7 +808,7 @@ section {
   line-height: 40px;
   text-align: center;
   border-radius: 50%;
-  font-family: var(--font-secondary);
+  font-family: var(--font-default);
   margin: 5px;
   transition: 0.3s all ease;
 }
@@ -1053,7 +1057,7 @@ section {
 
 .comment .comment-meta .text-muted,
 .comment .reply-meta .text-muted {
-  font-family: var(--font-secondary);
+  font-family: var(--font-default);
   font-size: 12px;
 }
 
@@ -1240,7 +1244,7 @@ section {
   letter-spacing: 0.07rem;
   text-transform: uppercase;
   font-weight: 400;
-  font-family: var(--font-secondary);
+  font-family: var(--font-default);
   color: rgba(var(--color-white-rgb), 0.4);
   margin-bottom: 0px;
 }

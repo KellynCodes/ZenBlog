@@ -1,0 +1,12 @@
+<div class="text-start py-4">
+  <div class="custom-pagination">
+    <a class="prev" (click)="prevPage()">Previous</a>
+    @for (page of pages; track $index) {
+    <ng-container [ngSwitch]="page">
+      <a *ngSwitchCase="currentPage" class="active">{{ page }}</a>
+      <a *ngSwitchDefault (click)="goToPage(page)">{{ page }}</a>
+    </ng-container>
+    }
+    <a class="next" (click)="nextPage()">Next</a>
+  </div>
+</div>

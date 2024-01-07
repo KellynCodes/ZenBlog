@@ -9,11 +9,13 @@ import { LoaderComponent } from '../../loader/loader.component';
 import { DeletePost, LoadPosts } from '../state/blog.action';
 import { Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { EmptyComponent } from '../../empty/empty.component';
+import { BrowserApiService } from '../../../../services/utils/browser.api.service';
 
 @Component({
   selector: 'blog-post',
   standalone: true,
-  imports: [CommonModule, RouterLink, LoaderComponent],
+  imports: [CommonModule, RouterLink, LoaderComponent, EmptyComponent],
   templateUrl: './post.component.html',
   styleUrl: './post.component.scss',
 })
@@ -29,7 +31,8 @@ export class PostComponent {
 
   constructor(
     private store: Store<AppState>,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private browserApi: BrowserApiService
   ) {
     this.postId = this.activatedRoute.snapshot.params['id'];
     this.isPostLoading = toSignal(this.isPostLoading$, {
@@ -44,15 +47,17 @@ export class PostComponent {
   ngOnInit(): void {}
 
   ngOnDestroy(): void {
-    console.log('completed.');
     this.ngUnSubscribe.complete();
   }
+
   getPost(postId: string): void {
     this.posts$?.pipe(takeUntil(this.ngUnSubscribe)).subscribe((post) => {
       this.post = post?.find((x) => x.id == postId);
     });
     this.postDescriptionFirstCharacter = this.post?.text![0]!;
-    window.scrollTo(0, 0);
+    if (this.browserApi.isBrowser) {
+      window.scrollTo(0, 0);
+    }
   }
 
   loadCourse(): void {

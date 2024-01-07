@@ -12,30 +12,23 @@ export class PostService {
   constructor(private http: HttpClient) {}
 
   createPost(newPost: PostDto): Observable<HttpResponse<PostDto[]>> {
-    return this.http.post<HttpResponse<PostDto[]>>(
-      'https://dummyapi.io/data/v1/post/create',
-      newPost
-    );
+    return this.http.post<HttpResponse<PostDto[]>>('post/create', newPost);
   }
 
   getPosts(
     query: QueryDto = { keyword: '', page: 1, limit: 10 }
   ): Observable<HttpResponse<PostDto[]>> {
     return this.http.get<HttpResponse<PostDto[]>>(
-      `https://dummyapi.io/data/v1/post?limit=${query.limit}?page=${query.page}?keyword=${query.keyword}`
+      `post?limit=${query.limit}?page=${query.page}?keyword=${query.keyword}`
     );
   }
 
   getPost(postId: string): Observable<HttpResponse<PostDto>> {
-    return this.http.get<HttpResponse<PostDto>>(
-      `https://dummyapi.io/data/v1/post/${postId}`
-    );
+    return this.http.get<HttpResponse<PostDto>>(`post/${postId}`);
   }
 
   deletePost(postId: string): Observable<HttpResponse<any>> {
-    return this.http.delete<HttpResponse<PostDto>>(
-      `https://dummyapi.io/data/v1/post/${postId}`
-    );
+    return this.http.delete<HttpResponse<PostDto>>(`post/${postId}`);
   }
 
   UpdatePost(
@@ -43,7 +36,7 @@ export class PostService {
     updatedPost: PostDto
   ): Observable<HttpResponse<PostDto[]>> {
     return this.http.put<HttpResponse<PostDto[]>>(
-      `https://dummyapi.io/data/v1/post/${postId}`,
+      `post/${postId}`,
       updatedPost
     );
   }

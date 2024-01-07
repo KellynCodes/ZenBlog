@@ -12,6 +12,7 @@ import { TemplatePageTitleStrategy } from '../extension/title.strategy';
 import {
   HTTP_INTERCEPTORS,
   provideHttpClient,
+  withFetch,
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { JwtTokenInterceptor } from '../extension/http.interceptor';
@@ -20,11 +21,12 @@ import { provideStore } from '@ngrx/store';
 import { appReducer } from './state/app/app.reducer';
 import { provideEffects } from '@ngrx/effects';
 import { appEffects } from './state/app/app.effects';
+import { provideClientHydration } from '@angular/platform-browser';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimations(),
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(withFetch(), withInterceptorsFromDi()),
     { provide: HTTP_INTERCEPTORS, useClass: JwtTokenInterceptor, multi: true },
     provideToastr({
       maxOpened: 8,
@@ -49,5 +51,6 @@ export const appConfig: ApplicationConfig = {
       maxAge: 25, // Retains last 25 states
       logOnly: !isDevMode(), // Restrict extension to log-only mode
     }),
+    provideClientHydration(),
   ],
 };

@@ -47,7 +47,7 @@
 
   @if (isPostLoading()) {
   <blog-loader loadingText="Loading Posts..." />
-  }@else if(posts$ | async){
+  }@else if(posts()){
   <div class="tab-content" id="pills-tabContent">
     <!-- Popular -->
     <div
@@ -56,7 +56,7 @@
       role="tabpanel"
       aria-labelledby="pills-popular-tab"
     >
-      @for (post of posts$ | async; track post.id) {
+      @for (post of posts(); track post.id) {
       <div class="post-entry-1 border-bottom">
         <div class="post-meta">
           <span class="date">{{ (post?.tags)![0]! }}</span>
@@ -84,7 +84,7 @@
       role="tabpanel"
       aria-labelledby="pills-trending-tab"
     >
-      @for (post of posts$ | async; track post.id) {
+      @for (post of posts(); track post.id) {
       <div class="post-entry-1 border-bottom">
         <div class="post-meta">
           <span class="date">{{ (post?.tags)![0]! }}</span>
@@ -112,7 +112,7 @@
       role="tabpanel"
       aria-labelledby="pills-latest-tab"
     >
-      @for (post of posts$ | async; track post.id) {
+      @for (post of posts(); track post.id) {
       <div class="post-entry-1 border-bottom">
         <div class="post-meta">
           <span class="date">{{ (post?.tags)![0]! }}</span>

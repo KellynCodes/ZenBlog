@@ -1,9 +1,7 @@
 <!-- ======= Post Grid Section ======= -->
 @if(isPostLoading()){
 <blog-loader loadingText="Loading Post..." />
-} @if(!isPostLoading() && posts()?.length! <= 0){
-<blog-empty message="No Post found!" />
-}@else{
+} @if(posts()){
 <section id="posts" class="posts !mt-8">
   <div class="container" data-aos="fade-up">
     <div class="row g-5">
@@ -48,7 +46,7 @@
                 ><img [src]="post.image" alt="" class="img-fluid"
               /></a>
               <div class="post-meta">
-                @for (tag of post.tags; track $index) {
+                @for (tag of post?.tags; track $index) {
                 <span class="date">{{ tag }}</span>
                 }
                 <span class="mx-1">&bullet;</span>
@@ -81,6 +79,7 @@
                     </span>
                   </a>
                 </li>
+
                 }
               </ul>
             </div>

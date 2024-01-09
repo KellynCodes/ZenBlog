@@ -22,6 +22,7 @@ export class SidebarComponent {
   posts$ = this.store.select(getPosts);
   isPostLoading$ = this.store.select(IsPostLoading);
   isPostLoading!: Signal<boolean>;
+  posts!: Signal<PostDto[] | null>;
   data = [
     {
       srcUrl: 'https://www.youtube.com/embed/V-D2sk_azcs',
@@ -36,6 +37,9 @@ export class SidebarComponent {
     this.isPostLoading = toSignal(this.isPostLoading$, {
       initialValue: false,
     });
+    this.posts = toSignal(this.posts$, {
+      initialValue: null,
+    });
   }
 
   ngOnInit() {
@@ -47,11 +51,5 @@ export class SidebarComponent {
         })
     );
     this.gallery.ref().load(this.items);
-  }
-
-  loadCourse(): void {
-    this.store.dispatch(
-      LoadPosts({ query: { page: 1, limit: 5, keyword: '' } })
-    );
   }
 }

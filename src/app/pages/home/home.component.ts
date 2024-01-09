@@ -13,6 +13,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { PostDto } from '../../../services/post/Dto/post.dto';
 import { LoadPosts } from '../../components/blog/state/blog.action';
 import { Subject, takeUntil } from 'rxjs';
+import { EmptyComponent } from '../../components/shared/empty/empty.component';
 
 @Component({
   selector: 'blog-home',
@@ -23,6 +24,7 @@ import { Subject, takeUntil } from 'rxjs';
     PostsComponent,
     LoaderComponent,
     SlickCarouselModule,
+    EmptyComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',

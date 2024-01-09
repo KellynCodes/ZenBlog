@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { FooterComponent, NavbarComponent } from './components';
 import * as Aos from 'aos';
-import GLightbox from 'glightbox';
 
 @Component({
   selector: 'blog-root',
@@ -21,10 +20,6 @@ export class AppComponent {
         once: true,
         mirror: false,
       });
-
-      // const glightbox = GLightbox({
-      //   selector: '.glightbox',
-      // });
     });
   }
 

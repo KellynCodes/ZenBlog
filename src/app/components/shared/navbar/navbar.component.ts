@@ -49,12 +49,10 @@ export class NavbarComponent {
     }
     try {
       const searchKeyword: string = this.searchForm.value['searchKeyword'];
-      this.searchForm.reset({});
       this.router.navigateByUrl(`/blog?search=${searchKeyword}`);
     } catch (error: any) {
       this.isSending.set(false);
       this.toastr.error('Something unexpected. Try again.');
-      return;
     }
   }
 }

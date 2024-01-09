@@ -30,6 +30,7 @@
 
               }
             </ngx-slick-carousel>
+
             }
           </div>
         </div>
@@ -43,7 +44,7 @@
   } @placeholder (minimum 500ms) {
   <blog-loader loadingText="Loading post..." />
   }@error {
-  <h2>Failed to load Posts component.</h2>
+  <blog-empty message="Failed to load posts. Refresh this page. " />
   }
 </main>
 <!-- End #main -->

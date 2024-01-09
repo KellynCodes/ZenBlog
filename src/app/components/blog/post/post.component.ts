@@ -5,17 +5,25 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../state/app/app.state';
 import { PostDto } from '../../../../services/post/Dto/post.dto';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { LoaderComponent } from '../../loader/loader.component';
+import { LoaderComponent } from '../../shared/loader/loader.component';
 import { DeletePost, LoadPosts } from '../state/blog.action';
 import { Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { EmptyComponent } from '../../empty/empty.component';
+import { EmptyComponent } from '../../shared/empty/empty.component';
 import { BrowserApiService } from '../../../../services/utils/browser.api.service';
+import { SidebarComponent } from '../../shared/sidebar/sidebar.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'blog-post',
   standalone: true,
-  imports: [CommonModule, RouterLink, LoaderComponent, EmptyComponent],
+  imports: [
+    CommonModule,
+    RouterLink,
+    LoaderComponent,
+    EmptyComponent,
+    SidebarComponent,
+  ],
   templateUrl: './post.component.html',
   styleUrl: './post.component.scss',
 })
@@ -32,7 +40,8 @@ export class PostComponent {
   constructor(
     private store: Store<AppState>,
     private activatedRoute: ActivatedRoute,
-    private browserApi: BrowserApiService
+    private browserApi: BrowserApiService,
+    private toastrService: ToastrService
   ) {
     this.postId = this.activatedRoute.snapshot.params['id'];
     this.isPostLoading = toSignal(this.isPostLoading$, {
@@ -44,7 +53,11 @@ export class PostComponent {
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.post == null) {
+      this.toastrService.error('Post was empty.');
+    }
+  }
 
   ngOnDestroy(): void {
     this.ngUnSubscribe.complete();

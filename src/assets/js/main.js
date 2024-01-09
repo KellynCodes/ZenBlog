@@ -1,10 +1,3 @@
-/**
- * Template Name: ZenBlog
- * Updated: Sep 18 2023 with Bootstrap v5.3.2
- * Template URL: https://bootstrapmade.com/zenblog-bootstrap-blog-template/
- * Author: BootstrapMade.com
- * License: https:///bootstrapmade.com/license/
- */
 document.addEventListener("DOMContentLoaded", () => {
   "use strict";
 
@@ -79,7 +72,6 @@ document.addEventListener("DOMContentLoaded", () => {
    */
   const scrollTop = document.querySelector(".scroll-top");
   if (scrollTop) {
-    console.log(scrollTop);
     const togglescrollTop = function () {
       window.scrollY > 100
         ? scrollTop.classList.add("active")

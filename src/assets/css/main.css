@@ -1,12 +1,4 @@
 /**
-* Template Name: ZenBlog
-* Updated: Sep 18 2023 with Bootstrap v5.3.2
-* Template URL: https://bootstrapmade.com/zenblog-bootstrap-blog-template/
-* Author: BootstrapMade.com
-* License: https:///bootstrapmade.com/license/
-*/
-
-/**
 * Check out variables.css for easy customization of colors, typography, and other repetitive properties
 */
 /*--------------------------------------------------------------
@@ -17,22 +9,22 @@
 }
 
 body {
-  color: rgba(var(--color-primary-rgb), 1);
+  color: rgba(var(--color-primary-rgb), 1) !important;
   font-family: sans-serif !important;
 }
 
 a {
-  color: var(--color-links);
-  text-decoration: none;
+  color: var(--color-links) !important;
+  text-decoration: none !important;
 }
 
 a:hover {
   color: var(--color-links-hover);
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 .logo {
-  font-family: var(--color-primary);
+  font-family: var(--color-primary) !important;
 }
 
 h1,
@@ -1228,7 +1220,7 @@ section {
 }
 
 .footer .footer-heading {
-  color: var(--color-white);
+  color: var(--color-white) !important;
   margin-bottom: 20px;
   padding-bottom: 10px;
   font-size: 18px;
@@ -1245,7 +1237,7 @@ section {
   text-transform: uppercase;
   font-weight: 400;
   font-family: var(--font-default);
-  color: rgba(var(--color-white-rgb), 0.4);
+  color: rgba(var(--color-white-rgb), 0.4) !important;
   margin-bottom: 0px;
 }
 
@@ -1259,16 +1251,16 @@ section {
 }
 
 .footer .footer-links li a {
-  color: rgba(var(--color-white-rgb), 0.7);
+  color: rgba(var(--color-white-rgb), 0.7) !important;
 }
 
 .footer .footer-links li a:hover,
 .footer .footer-links li a:focus {
-  color: rgba(var(--color-white-rgb), 1);
+  color: rgba(var(--color-white-rgb), 1) !important;
 }
 
 .footer .footer-legal {
-  background: var(--color-black);
+  background: var(--color-black) !important;
   padding: 40px 0;
 }
 
@@ -1277,14 +1269,14 @@ section {
   display: inline-block;
   width: 40px;
   height: 40px;
-  background-color: rgba(var(--color-white-rgb), 0.09);
+  background-color: rgba(var(--color-white-rgb), 0.09) !important;
   border-radius: 50%;
-  color: var(--color-white);
+  color: var(--color-white) !important;
   line-height: 40px;
 }
 
 .footer .footer-legal .social-links a:hover {
-  background-color: rgba(var(--color-white-rgb), 0.2);
+  background-color: rgba(var(--color-white-rgb), 0.2) !important;
 }
 
 .footer .copyright strong {

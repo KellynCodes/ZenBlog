@@ -1,4 +1,12 @@
-import { Component, Input, Signal, signal } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  Signal,
+  SimpleChanges,
+  signal,
+} from '@angular/core';
 import { PostDto } from '../../../services/post/Dto/post.dto';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { IsPostLoading, getPosts } from '../blog/state/blog.state';
@@ -8,20 +16,28 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../state/app/app.state';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
-import { PaginationComponent } from '../pagination/pagination.component';
+import { PaginationComponent } from '../shared/pagination/pagination.component';
 import { LoadPosts } from '../blog/state/blog.action';
+import { SidebarComponent } from '../shared/sidebar/sidebar.component';
+import { EmptyComponent } from '../shared/empty/empty.component';
+import { LoaderComponent } from '../shared/loader/loader.component';
 
 @Component({
   selector: 'blog-search-result',
   standalone: true,
-  imports: [CommonModule, RouterLink, PaginationComponent],
+  imports: [
+    CommonModule,
+    RouterLink,
+    PaginationComponent,
+    SidebarComponent,
+    EmptyComponent,
+    LoaderComponent
+  ],
   templateUrl: './search-result.component.html',
   styleUrl: './search-result.component.scss',
 })
-export class SearchResultComponent {
-  @Input({ required: false })
-  searchInput = signal<PostDto[] | null>(null);
-  search: string | null = '';
+export class SearchResultComponent implements OnInit {
+  search = signal<string | null>(null);
   posts$ = this.store.select(getPosts);
   isPostLoading$ = this.store.select(IsPostLoading);
   posts = signal<PostDto[] | null>(null);
@@ -39,36 +55,42 @@ export class SearchResultComponent {
       initialValue: false,
     });
   }
+
   ngOnInit(): void {
-    this.search = this.route.snapshot.queryParamMap.get('search');
-    console.log(this.search);
-    this.searchPost();
+    this.route.queryParamMap
+      .pipe(takeUntil(this.ngUnSubscribe))
+      .subscribe((queryParams) => {
+        const search = queryParams.get('search');
+        this.search.set(search);
+        this.searchPost(search ?? '');
+      });
   }
 
   ngOnDestroy(): void {
     this.ngUnSubscribe.complete();
   }
 
-  searchPost(): void {
+  searchPost(searchKeyword: string): void {
+    let filteredPosts;
     this.posts$?.pipe(takeUntil(this.ngUnSubscribe)).subscribe((posts) => {
-      const filteredPosts = posts?.filter((p) => {
-        if (this.search) {
-          p.title.includes(this.search);
+      filteredPosts = posts?.filter((p) => {
+        if (searchKeyword != null) {
+          return p.text.toLowerCase().includes(searchKeyword?.toLowerCase()!);
         }
+        return null;
       });
-      this.posts.set(filteredPosts || null);
     });
-
+    this.posts.set(filteredPosts!);
+    console.log(filteredPosts);
     if (this.browserApi.isBrowser) {
       window.scrollTo(0, 0);
     }
   }
 
   onPageChanged(page: number) {
-    debugger;
+    console.log(page);
     this.currentPage = page;
     LoadPosts({ query: { page: page, limit: 10, keyword: '' } });
-    this.searchPost();
-    console.log('Current Page:', this.currentPage);
+    this.searchPost(this.search()!);
   }
 }

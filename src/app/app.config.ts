@@ -22,6 +22,7 @@ import { appReducer } from './state/app/app.reducer';
 import { provideEffects } from '@ngrx/effects';
 import { appEffects } from './state/app/app.effects';
 import { provideClientHydration } from '@angular/platform-browser';
+import { LIGHTBOX_CONFIG, LightboxConfig } from 'ng-gallery/lightbox';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -32,8 +33,15 @@ export const appConfig: ApplicationConfig = {
       maxOpened: 8,
       autoDismiss: true,
       timeOut: 3000,
-      positionClass: 'toast-top-center',
+      positionClass: 'toast-top-right',
     }),
+    {
+      provide: LIGHTBOX_CONFIG,
+      useValue: {
+        keyboardShortcuts: false,
+        exitAnimationTime: 1000,
+      } as LightboxConfig,
+    },
     provideRouter(
       routes,
       withInMemoryScrolling({

@@ -10,8 +10,8 @@ import { AppState } from '../../state/app/app.state';
 import { RouterLink } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { LoadPosts } from '../../components/blog/state/blog.action';
-import { LoaderComponent } from '../../components/loader/loader.component';
-import { EmptyComponent } from '../../components/empty/empty.component';
+import { LoaderComponent } from '../../components/shared/loader/loader.component';
+import { EmptyComponent } from '../../components/shared/empty/empty.component';
 
 @Component({
   selector: 'blog-posts',
@@ -29,6 +29,9 @@ export class PostsComponent {
 
   constructor(private store: Store<AppState>) {
     this.isPostLoading = toSignal(this.isPostLoading$, { initialValue: false });
+  }
+
+  ngOnInit(): void {
     this.posts$.pipe(takeUntil(this.ngUnSubscribe)).subscribe((posts) => {
       if (posts == null) {
         this.store.dispatch(
@@ -40,8 +43,6 @@ export class PostsComponent {
       this.posts.set(posts);
     });
   }
-
-  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.ngUnSubscribe.complete();

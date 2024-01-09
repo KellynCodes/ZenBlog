@@ -1,8 +1,8 @@
 <!-- ======= Post Grid Section ======= -->
 @if(isPostLoading()){
 <blog-loader loadingText="Loading Post..." />
-} @else if(posts() == null){
-<blog-empty message="No Post not found!" />
+} @if(!isPostLoading() && posts()?.length! <= 0){
+<blog-empty message="No Post found!" />
 }@else{
 <section id="posts" class="posts !mt-8">
   <div class="container" data-aos="fade-up">

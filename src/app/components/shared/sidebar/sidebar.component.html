@@ -1,0 +1,182 @@
+<!-- ======= Sidebar ======= -->
+<div class="aside-block">
+  <ul class="nav nav-pills custom-tab-nav mb-4" id="pills-tab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link active"
+        id="pills-popular-tab"
+        data-bs-toggle="pill"
+        data-bs-target="#pills-popular"
+        type="button"
+        role="tab"
+        aria-controls="pills-popular"
+        aria-selected="true"
+      >
+        Popular
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link"
+        id="pills-trending-tab"
+        data-bs-toggle="pill"
+        data-bs-target="#pills-trending"
+        type="button"
+        role="tab"
+        aria-controls="pills-trending"
+        aria-selected="false"
+      >
+        Trending
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link"
+        id="pills-latest-tab"
+        data-bs-toggle="pill"
+        data-bs-target="#pills-latest"
+        type="button"
+        role="tab"
+        aria-controls="pills-latest"
+        aria-selected="false"
+      >
+        Latest
+      </button>
+    </li>
+  </ul>
+
+  @if (isPostLoading()) {
+  <blog-loader loadingText="Loading Posts..." />
+  }@else if(posts$ | async){
+  <div class="tab-content" id="pills-tabContent">
+    <!-- Popular -->
+    <div
+      class="tab-pane fade show active"
+      id="pills-popular"
+      role="tabpanel"
+      aria-labelledby="pills-popular-tab"
+    >
+      @for (post of posts$ | async; track post.id) {
+      <div class="post-entry-1 border-bottom">
+        <div class="post-meta">
+          <span class="date">{{ (post?.tags)![0]! }}</span>
+          <span class="mx-1">&bullet;</span>
+          <span>{{ post?.publishDate | date }}</span>
+        </div>
+        <h2 class="mb-2">
+          <a class="cursor-pointer" routerLink="/post/{{ post.id }}">{{
+            post.text
+          }}</a>
+        </h2>
+        <span class="author mb-3 d-block">
+          {{ post.owner.firstName + " " + post.owner.lastName }}
+        </span>
+      </div>
+
+      }
+    </div>
+    <!-- End Popular -->
+
+    <!-- Trending -->
+    <div
+      class="tab-pane fade"
+      id="pills-trending"
+      role="tabpanel"
+      aria-labelledby="pills-trending-tab"
+    >
+      @for (post of posts$ | async; track post.id) {
+      <div class="post-entry-1 border-bottom">
+        <div class="post-meta">
+          <span class="date">{{ (post?.tags)![0]! }}</span>
+          <span class="mx-1">&bullet;</span>
+          <span>{{ post?.publishDate | date }}</span>
+        </div>
+        <h2 class="mb-2">
+          <a class="cursor-pointer" routerLink="/post/{{ post.id }}">{{
+            post.text
+          }}</a>
+        </h2>
+        <span class="author mb-3 d-block">
+          {{ post.owner.firstName + " " + post.owner.lastName }}
+        </span>
+      </div>
+
+      }
+    </div>
+    <!-- End Trending -->
+
+    <!-- Latest -->
+    <div
+      class="tab-pane fade"
+      id="pills-latest"
+      role="tabpanel"
+      aria-labelledby="pills-latest-tab"
+    >
+      @for (post of posts$ | async; track post.id) {
+      <div class="post-entry-1 border-bottom">
+        <div class="post-meta">
+          <span class="date">{{ (post?.tags)![0]! }}</span>
+          <span class="mx-1">&bullet;</span>
+          <span>{{ post?.publishDate | date }}</span>
+        </div>
+        <h2 class="mb-2">
+          <a class="cursor-pointer" routerLink="/post/{{ post.id }}">{{
+            post.text
+          }}</a>
+        </h2>
+        <span class="author mb-3 d-block">
+          {{ post.owner.firstName + " " + post.owner.lastName }}
+        </span>
+      </div>
+
+      }
+      <!-- End Latest -->
+    </div>
+    <!-- End Latest-->
+  </div>
+  }
+</div>
+
+@if(post != null){
+<div class="aside-block">
+  <h3 class="aside-title">Video</h3>
+  @for (item of items; track $index) {
+  <div class="video-post" [lightbox]="$index">
+    <span class="bi-play-fill"></span>
+    <img
+      [src]="item.data?.thumb"
+      [alt]="post.title"
+      class="img-fluid min-w-[15rem] max-h-[13rem]"
+    />
+  </div>
+  }
+</div>
+<!-- End Video -->
+
+<div class="aside-block">
+  <h3 class="aside-title">Categories</h3>
+  <ul class="aside-links list-unstyled">
+    @for (tag of post.tags; track $index) {
+
+    <li>
+      <a routerLink="/category/{{ tag }}"
+        ><i class="bi bi-chevron-right"></i> {{ tag }}</a
+      >
+    </li>
+    }
+  </ul>
+</div>
+<!-- End Categories -->
+
+<div class="aside-block">
+  <h3 class="aside-title">Tags</h3>
+  <ul class="aside-tags list-unstyled">
+    @for (tag of post.tags; track $index) {
+    <li>
+      <a routerLink="/category/{{ tag }}">{{ tag }}</a>
+    </li>
+    }
+  </ul>
+</div>
+}
+<!-- End Tags -->

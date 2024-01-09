@@ -1,4 +1,10 @@
-import { Component, Input, Signal } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  Signal,
+  SimpleChanges,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { PostDto } from '../../../../services/post/Dto/post.dto';
 import { LoadPosts } from '../../blog/state/blog.action';
@@ -18,7 +24,7 @@ import { LightboxModule } from 'ng-gallery/lightbox';
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnChanges {
   posts$ = this.store.select(getPosts);
   isPostLoading$ = this.store.select(IsPostLoading);
   isPostLoading!: Signal<boolean>;
@@ -42,7 +48,19 @@ export class SidebarComponent {
     });
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['post'].currentValue) {
+      const newValue = changes?.['post'].currentValue as PostDto;
+      this.post = newValue;
+      this.loadItems();
+    }
+  }
+
   ngOnInit() {
+    this.loadItems();
+  }
+
+  loadItems(): void {
     this.items = this.data.map(
       (item) =>
         new IframeItem({

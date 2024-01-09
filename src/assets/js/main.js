@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /**
    * Hide mobile nav on same-page/hash links
    */
-  document.querySelectorAll("#navbar a").forEach((navbarlink) => {
+  document.querySelectorAll("#navbar ul li a").forEach((navbarlink) => {
     if (!navbarlink.hash) return;
 
     let section = document.querySelector(navbarlink.hash);

@@ -25,6 +25,7 @@ export class PostEffect {
           map((res) => {
             return postActions.Success({
               posts: res.data!,
+              successMessage: '',
             });
           }),
           catchError((error) => {
@@ -63,40 +64,25 @@ export class PostEffect {
     )
   );
 
-  resetCourseErrorMessage$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(postActions.PostFailure),
-        tap((error) => {
-          if (typeof error?.errorMessage == 'object') {
-            const { message } = error.errorMessage;
-            this.toastr.error(message);
-          }
-          if (typeof error?.errorMessage == 'string') {
-            console.log(
-              'errorMessage from string message',
-              error?.errorMessage
-            );
-            this.toastr.error(`${error.errorMessage}`);
-          }
-          setTimeout(() => {
-            this.store.dispatch(postActions.ResetPostFetchState());
-          }, 6000);
-        })
-      ),
-    { dispatch: false }
-  );
-
   createPostRequest$ = createEffect(() =>
     this.actions$.pipe(
       ofType(postActions.CreatePost),
       exhaustMap((action) =>
         this.postService.createPost(action.post).pipe(
           map((res) => {
-            return postActions.Success({ posts: res.data! });
+            console.log(res);
+            return postActions.Success({
+              posts: res.data!,
+              successMessage: 'Post created successfully',
+            });
           }),
           catchError((error) => {
-            return of(postActions.PostFailure(error.error?.message));
+            return of(
+              postActions.PostFailure({
+                IsLoading: false,
+                errorMessage: error,
+              })
+            );
           })
         )
       )
@@ -109,10 +95,18 @@ export class PostEffect {
       exhaustMap((action) =>
         this.postService.UpdatePost(action.postId, action.post).pipe(
           map((res) => {
-            return postActions.Success({ posts: res.data! });
+            return postActions.Success({
+              posts: res.data!,
+              successMessage: 'Post updated Successfully.',
+            });
           }),
           catchError((error) => {
-            return of(postActions.PostFailure(error.error?.message));
+            return of(
+              postActions.PostFailure({
+                IsLoading: false,
+                errorMessage: error.error?.message,
+              })
+            );
           })
         )
       )
@@ -128,10 +122,49 @@ export class PostEffect {
             return postActions.ResetPostFetchState();
           }),
           catchError((error) => {
-            return of(postActions.PostFailure(error.error?.message));
+            return of(
+              postActions.PostFailure({
+                IsLoading: false,
+                errorMessage: error.error?.message,
+              })
+            );
           })
         )
       )
     )
+  );
+
+  resetCourseErrorMessage$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(postActions.PostFailure),
+        tap((error) => {
+          if (error.errorMessage.length > 0) {
+            this.toastr.error(error.errorMessage, 'Error');
+            setTimeout(() => {
+              this.store.dispatch(postActions.ResetPostFetchState());
+              this.toastr.clear();
+            }, 3000);
+          }
+        })
+      ),
+    { dispatch: false }
+  );
+
+  resetCourseSuccessMessage$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(postActions.Success),
+        tap((success) => {
+          if (success.successMessage.length > 0) {
+            this.toastr.success(success.successMessage, 'Success');
+            setTimeout(() => {
+              this.store.dispatch(postActions.ResetPostFetchState());
+              this.toastr.clear();
+            }, 3000);
+          }
+        })
+      ),
+    { dispatch: false }
   );
 }

@@ -41,7 +41,7 @@
 
   @defer {
   <blog-posts />
-  } @placeholder (minimum 500ms) {
+  } @loading () {
   <blog-loader loadingText="Loading post..." />
   }@error {
   <blog-empty message="Failed to load posts. Refresh this page. " />

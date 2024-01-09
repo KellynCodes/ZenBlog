@@ -9,7 +9,7 @@
         }@else{ @for (post of posts(); track post.id) {
         <div class="d-md-flex post-entry-2 small-img">
           <a routerLink="/post/{{ post.id }}" class="me-4 thumbnail">
-            <img [src]="post.image" [alt]="post.title" class="img-fluid" />
+            <img [src]="post.image" [alt]="post.text" class="img-fluid" />
           </a>
           <div>
             <div class="post-meta">
@@ -18,14 +18,14 @@
               <span> {{ post.publishDate | date }} </span>
             </div>
             <h3>
-              <a [routerLink]="['post', post.id]"> {{ post.title }} </a>
+              <a [routerLink]="['post', post.id]"> {{ post.text }} </a>
             </h3>
             <p>
-              {{ post.content }}
+              {{ post.text }}
             </p>
             <div class="d-flex align-items-center author">
               <div class="photo">
-                <img [src]="post.image" [alt]="post.title" class="img-fluid" />
+                <img [src]="post.image" [alt]="post.text" class="img-fluid" />
               </div>
               <div class="name">
                 <h3 class="m-0 p-0">
@@ -41,8 +41,9 @@
 
         <!-- Paging -->
         <blog-pagination
-          [currentPage]="currentPage"
-          [totalPages]="totalPages"
+          [currentPage]="currentPage()"
+          [totalPages]="totalPages()"
+          [itemsPerPage]="itemsPerPage"
           (pageChanged)="onPageChanged($event)"
         ></blog-pagination>
 

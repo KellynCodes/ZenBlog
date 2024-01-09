@@ -31,7 +31,7 @@ export class SidebarComponent {
 
   items!: GalleryItem[];
 
-  @Input({ required: true }) post!: PostDto;
+  @Input({ required: false }) post!: PostDto;
 
   constructor(private store: Store<AppState>, public gallery: Gallery) {
     this.isPostLoading = toSignal(this.isPostLoading$, {

@@ -10,9 +10,9 @@
     </a>
 
     <nav id="navbar" class="navbar position-relative">
-      <ul>
-        <li><a routerLink="/">Home</a></li>
-        <li><a routerLink="/posts">Posts</a></li>
+      <ul class="!z-[999]">
+        <li class="links"><a routerLink="/">Home</a></li>
+        <li class="links"><a routerLink="/posts">Posts</a></li>
         <!-- <li class="dropdown">
           <a href="category.html"
             ><span>Categories</span>
@@ -40,39 +40,42 @@
           </ul>
         </li> -->
 
-        <li><a routerLink="/new-post">Create Post</a></li>
-        <a href="#" class="mx-2 js-search-open"
-          ><span class="bi-search"></span
-        ></a>
+        <li class="links"><a routerLink="/post/new-post">Create Post</a></li>
       </ul>
-      <!-- ======= Search Form ======= -->
-      <div class="search-form-wrap js-search-form-wrap">
-        <form
-          [formGroup]="searchForm"
-          (ngSubmit)="onSubmit()"
-          class="search-form"
-        >
-          <span class="icon bi-search"></span>
-          <input
-            type="text"
-            placeholder="Search Posts"
-            formControlName="searchKeyword"
-            class="form-control"
-          />
-          <button type="button" class="btn js-search-close">
-            <span class="bi-x"></span>
-          </button>
-          <button [disabled]="isSending()" type="submit" hidden></button>
-        </form>
-      </div>
-      <!-- End Search Form -->
     </nav>
+
+    <a href="#" class="mx-2 js-search-open"
+      ><span class="text-2xl bi-search"></span
+    ></a>
+    <!-- ======= Search Form ======= -->
+    <div class="search-form-wrap js-search-form-wrap">
+      <form
+        [formGroup]="searchForm"
+        (ngSubmit)="onSubmit()"
+        class="search-form"
+      >
+        <span class="icon bi-search"></span>
+        <input
+          type="text"
+          placeholder="Search Posts"
+          formControlName="searchKeyword"
+          class="form-control"
+        />
+        <button type="button" class="btn js-search-close">
+          <span class="text-3xl bi-x"></span>
+        </button>
+        <button [disabled]="isSending()" type="submit" hidden></button>
+      </form>
+    </div>
+    <!-- End Search Form -->
     <!-- .navbar -->
 
-    <div class="">
-      <a href="#" class="mx-2"><span class="bi-facebook"></span></a>
-      <a href="#" class="mx-2"><span class="bi-twitter"></span></a>
-      <a href="#" class="mx-2"><span class="bi-instagram"></span></a>
+    <div class="flex items-center justify-evenly">
+      <div class="hidden md:flex">
+        <a href="#" class="mx-2"><span class="bi-facebook"></span></a>
+        <a href="#" class="mx-2"><span class="bi-twitter"></span></a>
+        <a href="#" class="mx-2"><span class="bi-instagram"></span></a>
+      </div>
 
       <i class="bi bi-list mobile-nav-toggle"></i>
     </div>

@@ -1,6 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { errorMessage, initialPostState } from './blog.state';
 import * as postActions from './blog.action';
+import { PostDto } from '../../../../services/post/Dto/post.dto';
 
 const _postReducer = createReducer(
   initialPostState,
@@ -23,10 +24,20 @@ const _postReducer = createReducer(
   }),
 
   on(postActions.Success, (state, action) => {
+    if (action.posts != null && state.posts != null) {
+      return {
+        ...state,
+        posts: [...state.posts, ...action.posts] as PostDto[],
+        IsLoading: false,
+        successMessage: action.successMessage,
+        errorMessage: null,
+      };
+    }
     return {
       ...state,
       posts: action.posts,
       IsLoading: false,
+      successMessage: action.successMessage,
       errorMessage: null,
     };
   }),

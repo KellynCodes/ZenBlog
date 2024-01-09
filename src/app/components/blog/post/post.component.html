@@ -31,25 +31,27 @@
               class="!w-full md:!w-[50rem] bg-cover !max-h-[90vh] mt-8 img-fluid"
             />
             <figcaption>
-              <div>
+              <div
+                class="w-auto h-full flex items-center justify-evenly gap-y-4"
+              >
                 <a
-                  class="btn btn-primary"
+                  class="btn btn-primary mx-4"
                   routerLink="/post/{{ post.id }}/update"
                   >Update Post</a
                 >
                 <button
                   class="btn btn-danger"
                   type="button"
-                  (click)="deletePost(post.id)"
+                  (click)="deletePost(post.id!)"
                 >
                   {{ isPostLoading() ? "Deleting." : "Delete Post" }}
                 </button>
               </div>
-              {{ post.title }}
+              {{ post.text }}
             </figcaption>
           </figure>
           <p>
-            {{ post.content }}
+            {{ post.text }}
           </p>
         </div>
         }

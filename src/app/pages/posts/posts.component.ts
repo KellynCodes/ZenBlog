@@ -28,5 +28,6 @@ export class PostsComponent {
   constructor(private store: Store<AppState>) {
     this.isPostLoading = toSignal(this.isPostLoading$, { initialValue: false });
     this.posts = toSignal(this.posts$, { initialValue: null });
+    console.log(this.posts());
   }
 }

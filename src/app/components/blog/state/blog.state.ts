@@ -6,12 +6,14 @@ export const POST_STATE_NAME = 'post';
 export interface PostState {
   posts: PostDto[] | null;
   IsLoading: boolean;
+  successMessage: string | null;
   errorMessage: string | null;
 }
 
 export const initialPostState: PostState = {
   posts: null,
   IsLoading: false,
+  successMessage: null,
   errorMessage: null,
 };
 
@@ -26,6 +28,11 @@ export const getPosts = createSelector(
 export const IsPostLoading = createSelector(
   PostStateSelector,
   (state) => state.IsLoading
+);
+
+export const successMessage = createSelector(
+  PostStateSelector,
+  (state) => state.successMessage
 );
 
 export const errorMessage = createSelector(

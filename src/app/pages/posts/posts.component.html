@@ -23,7 +23,7 @@
             }}</a>
           </h2>
           <p class="mb-4 d-block">
-            {{ posts()![0].content }}
+            {{ posts()![0].text }}
           </p>
 
           <div class="d-flex align-items-center author">
@@ -53,7 +53,9 @@
                 <span> {{ post.publishDate }} </span>
               </div>
               <h2>
-                <a [routerLink]="['/post', post.id]"> {{ post.text }} </a>
+                <a [routerLink]="['/post', post.id]">
+                  {{ post.text }}
+                </a>
               </h2>
             </div>
           </div>
@@ -69,6 +71,7 @@
                   <a [routerLink]="['/post', trendingPost.id]">
                     <span class="number">1</span>
                     <h3>
+                      {{ trendingPost.text }}
                       {{ trendingPost.text }}
                     </h3>
                     <span class="author">

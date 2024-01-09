@@ -1,0 +1,94 @@
+<section class="single-post-content">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9 post-content" data-aos="fade-up">
+        @if(isPostLoading()){
+        <blog-loader loadingText="Loading Post..." />
+        }@else if(post == null){
+        <blog-empty message="This Post is not found." />
+        } @else{
+        <h1 class="text-center font-bold text-4xl">Update Post</h1>
+        <form [formGroup]="createPostForm" (ngSubmit)="onSubmit()">
+          <div class="relative w-full h-auto bg-gray-700 p-4">
+            <span
+              (click)="deletePost(post.id)"
+              title="Delete this post."
+              class="absolute top-1 right-1 cursor-pointer rounded-full text-4xl bg-red-400 hover:bg-red-500 text-white font-bold bi-x"
+            ></span>
+            <div class="formgroup">
+              <div class="input-container">
+                <label for=""> Post Image URl</label>
+                <input
+                  class="input"
+                  type="text"
+                  formControlName="image"
+                  placeholder="https://img.dummyapi.io/photo-1574457547512-5b1646994eea.jpg"
+                  id=""
+                />
+                @if(isInputValid('image', 'required')){
+                <h6 class="text-red-500">Image url is required.</h6>
+                }
+              </div>
+
+              <div class="input-container">
+                <label for="">Post Title</label>
+
+                <input
+                  class="input"
+                  type="text"
+                  formControlName="title"
+                  placeholder="Enter Post Title"
+                  id=""
+                />
+                @if(isInputValid('title', 'required')){
+                <h6 class="text-red-500">Post title is required.</h6>
+                } @if(isInputValid('title', 'maxlength')){
+                <h6 class="text-red-500">
+                  Post title cannot be greater than 500 characters.
+                </h6>
+                } @if(isInputValid('title', 'minlength')){
+                <h6 class="text-red-500">
+                  Post title cannot be less than 10 characters.
+                </h6>
+                }
+              </div>
+            </div>
+            <div class="formgroup">
+              <label for="">Post Content</label>
+              <textarea
+                formControlName="content"
+                placeholder="Enter Post Description"
+                id=""
+                cols="15"
+                rows="5"
+              ></textarea>
+              @if(isInputValid('title', 'required')){
+              <h6 class="text-red-500">Content url is required.</h6>
+              } @if(isInputValid('content', 'maxlength')){
+              <h6 class="text-red-500">
+                Content cannot be greater than 5000 characters.
+              </h6>
+              } @if(isInputValid('title', 'minlength')){
+              <h6 class="text-red-500">
+                Content cannot be less than 10 characters.
+              </h6>
+              }
+            </div>
+
+            <button
+              type="submit"
+              class="w-full block bg-primary transition-all duration-[100ms] hover:bg-secondary focus:bg-secondary text-white font-semibold rounded px-4 py-3 mt-4"
+              [disabled]="isPostLoading()"
+            >
+              {{ isPostLoading() ? "Updating Your Post..." : "Update" }}
+            </button>
+          </div>
+        </form>
+        }
+      </div>
+      <div class="col-md-3">
+        <blog-sidebar />
+      </div>
+    </div>
+  </div>
+</section>

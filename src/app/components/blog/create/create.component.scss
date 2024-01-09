@@ -1,0 +1,18 @@
+.formgroup{
+    @apply w-full flex flex-wrap items-center justify-between gap-2 mb-3;
+}
+
+.input-container{
+    @apply w-[45%] h-auto flex flex-col items-start justify-start gap-4; 
+}
+
+.input-container .input{
+@apply w-full px-4 py-3 rounded bg-gray-200 border focus:border-primary focus:bg-white focus:outline-none appearance-none;
+}
+
+textarea{
+    @apply w-full px-4 py-3 rounded bg-gray-200 mt-1 border focus:border-primary focus:bg-white focus:outline-none resize-none;
+}
+label{
+    @apply text-white;
+}

@@ -7,7 +7,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, exhaustMap, take } from 'rxjs';
+import { EMPTY, Observable, catchError, exhaustMap, take } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { ErrorResult } from '../data/shared/error.result';
 import {
@@ -52,18 +52,13 @@ export class JwtTokenInterceptor implements HttpInterceptor {
         return next.handle(clonedRequest);
       }),
       catchError((error) => {
-        const errorResponse: ErrorResult = {
-          isSuccessful: error?.error?.IsSuccessful,
-          message: error?.error?.Message,
-          httpStatusCode: error?.error?.HttpStatusCode,
-        };
         this.store.dispatch(
           setErrorMessage({
-            message: errorResponse.message,
-            isSuccessful: errorResponse.isSuccessful,
+            message: error?.error?.error,
+            isSuccessful: false,
           })
         );
-        return next.handle(request);
+        return EMPTY;
       })
     );
   }

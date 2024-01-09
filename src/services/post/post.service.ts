@@ -2,7 +2,7 @@ import { HttpResponse } from './../../data/shared/http.response.dto';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PostDto } from './Dto/post.dto';
+import { CreatePostDto, PostDto } from './Dto/post.dto';
 import { QueryDto } from '../utils/dto';
 
 @Injectable({
@@ -11,7 +11,8 @@ import { QueryDto } from '../utils/dto';
 export class PostService {
   constructor(private http: HttpClient) {}
 
-  createPost(newPost: PostDto): Observable<HttpResponse<PostDto[]>> {
+  createPost(newPost: CreatePostDto): Observable<HttpResponse<PostDto[]>> {
+    console.log(newPost);
     return this.http.post<HttpResponse<PostDto[]>>('post/create', newPost);
   }
 

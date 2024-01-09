@@ -5,8 +5,8 @@ export interface PostDto {
   owner: OwnerDto;
   publishDate: string;
   tags: Array<string>;
-  text: string;
-  title: string;
+  text: string | null;
+  title: string | null;
   content: string;
   updated: string;
 }
@@ -19,4 +19,17 @@ export interface OwnerDto {
   lastName: string;
 
   picture: string;
+}
+
+export interface CreatePostDto {
+  id: string;
+  image: string;
+  likes: number;
+  publishDate: string;
+  tags: Array<string>;
+  text: string | null;
+  owner: string;
+  title: string;
+  content: string;
+  updated: string;
 }

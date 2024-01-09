@@ -3,5 +3,5 @@ export interface ErrorResult {
 
   message: string;
 
-  httpStatusCode: number;
+  httpStatusCode?: number;
 }

@@ -4,7 +4,7 @@ import { IsPostLoading, getPosts } from '../state/blog.state';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../state/app/app.state';
 import { PostDto } from '../../../../services/post/Dto/post.dto';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, ParamMap, RouterLink } from '@angular/router';
 import { LoaderComponent } from '../../shared/loader/loader.component';
 import { DeletePost, LoadPosts } from '../state/blog.action';
 import { Subject, takeUntil } from 'rxjs';
@@ -54,9 +54,14 @@ export class PostComponent {
   }
 
   ngOnInit(): void {
-    if (this.post == null) {
-      this.toastrService.error('Post was empty.');
-    }
+    this.activatedRoute.paramMap
+      .pipe(takeUntil(this.ngUnSubscribe))
+      .subscribe((params: ParamMap) => {
+        const postId = params.get('id');
+        if (postId != null) {
+          this.getPost(postId);
+        }
+      });
   }
 
   ngOnDestroy(): void {
@@ -81,5 +86,8 @@ export class PostComponent {
 
   deletePost(postId: string): void {
     this.store.dispatch(DeletePost({ postId: postId, isDeleting: true }));
+    if (this.browserApi.isBrowser) {
+      window.scrollTo(0, 0);
+    }
   }
 }

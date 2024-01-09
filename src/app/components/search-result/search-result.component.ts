@@ -31,7 +31,7 @@ import { LoaderComponent } from '../shared/loader/loader.component';
     PaginationComponent,
     SidebarComponent,
     EmptyComponent,
-    LoaderComponent
+    LoaderComponent,
   ],
   templateUrl: './search-result.component.html',
   styleUrl: './search-result.component.scss',
@@ -43,8 +43,9 @@ export class SearchResultComponent implements OnInit {
   posts = signal<PostDto[] | null>(null);
   isPostLoading!: Signal<boolean>;
   public ngUnSubscribe = new Subject();
-  currentPage = 1;
-  totalPages = 5;
+  currentPage = signal<number>(1);
+  totalPages = signal<number>(0);
+  public itemsPerPage = 10;
 
   constructor(
     private store: Store<AppState>,
@@ -75,12 +76,17 @@ export class SearchResultComponent implements OnInit {
     this.posts$?.pipe(takeUntil(this.ngUnSubscribe)).subscribe((posts) => {
       filteredPosts = posts?.filter((p) => {
         if (searchKeyword != null) {
-          return p.text.toLowerCase().includes(searchKeyword?.toLowerCase()!);
+          return p.text!.toLowerCase().includes(searchKeyword?.toLowerCase()!);
         }
         return null;
       });
     });
     this.posts.set(filteredPosts!);
+    if (this.posts()?.length! - 1 > 10) {
+      const totalPages = this.currentPage() / this.itemsPerPage;
+      this.totalPages.set(totalPages);
+    }
+    this.totalPages.set(this.posts()?.length! - 1);
     console.log(filteredPosts);
     if (this.browserApi.isBrowser) {
       window.scrollTo(0, 0);
@@ -88,8 +94,7 @@ export class SearchResultComponent implements OnInit {
   }
 
   onPageChanged(page: number) {
-    console.log(page);
-    this.currentPage = page;
+    this.currentPage.set(page);
     LoadPosts({ query: { page: page, limit: 10, keyword: '' } });
     this.searchPost(this.search()!);
   }

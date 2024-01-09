@@ -1,10 +1,19 @@
 import { createAction, props } from '@ngrx/store';
-import { PostDto } from '../../../../services/post/Dto/post.dto';
+import {
+  CreatePostDto,
+  OwnerDto,
+  PostDto,
+} from '../../../../services/post/Dto/post.dto';
 import { QueryDto } from '../../../../services/utils/dto';
 
 export const CreatePost = createAction(
   '[POST API] Create Post',
-  props<{ post: PostDto; IsPostLoading: boolean }>()
+  props<{ post: CreatePostDto; IsPostLoading: boolean }>()
+);
+
+export const CreateUser = createAction(
+  '[POST API] Create Post',
+  props<{ post: OwnerDto; IsPostLoading: boolean }>()
 );
 export const UpdatePost = createAction(
   '[POST API] Update Post',
@@ -33,7 +42,7 @@ export const LoadPosts = createAction(
 
 export const Success = createAction(
   '[POST API] Load Posts Success',
-  props<{ posts: PostDto[] }>()
+  props<{ posts: PostDto[]; successMessage: string }>()
 );
 export const PostFailure = createAction(
   '[POST API] Load Posts Error',

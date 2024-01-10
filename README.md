@@ -41,9 +41,15 @@ The Angular Blogging App is a Single Page Application (SPA) built with Angular a
     - Leverages Angular Reactive Forms for creating and updating blog posts, ensuring a dynamic and user-friendly experience.
 
 11. **Angular 17 Updates:**
-    - Takes advantage of the latest features in Angular 17, including the use of `signal` and `toSignal` for enhanced functionality and subscribing to observables without using async pipes. This feature of subscribing to observables with `toSignal` ```typescript
+    - Takes advantage of the latest features in Angular 17, including the use of `signal` and `toSignal` for enhanced functionality and subscribing to observables without using async pipes. This feature of subscribing to observables with `toSignal()` 
+
+## Example
+
+ ```typescript
     this.posts = toSignal(this.posts$, {initialValue: null})
-    ``` makes it simple to use observable without having to make sure you unsubscribe from the observable when the component is terminated.
+ ```
+
+  This makes it simple to subscribe to an observable without having to make sure you unsubscribe from the observable when the component is terminated.
 
 ## Installation
 

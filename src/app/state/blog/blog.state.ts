@@ -1,11 +1,12 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { PostDto } from '../../../../services/post/Dto/post.dto';
+import { PostDto } from '../../../services/post/Dto/post.dto';
 
 export const POST_STATE_NAME = 'post';
 
 export interface PostState {
   posts: PostDto[] | null;
   IsLoading: boolean;
+  IsReFetch: boolean;
   successMessage: string | null;
   errorMessage: string | null;
 }
@@ -13,6 +14,7 @@ export interface PostState {
 export const initialPostState: PostState = {
   posts: null,
   IsLoading: false,
+  IsReFetch: false,
   successMessage: null,
   errorMessage: null,
 };

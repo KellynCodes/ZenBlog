@@ -1,5 +1,5 @@
-import { postReducer } from '../../components/blog/state/blog.reducer';
-import { POST_STATE_NAME } from '../../components/blog/state/blog.state';
+import { postReducer } from '../blog/blog.reducer';
+import { POST_STATE_NAME } from '../blog/blog.state';
 import { sharedReducer } from '../shared/shared.reducer';
 import { SHARED_STATE_NAME } from '../shared/shared.selector';
 

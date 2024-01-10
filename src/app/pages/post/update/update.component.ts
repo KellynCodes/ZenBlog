@@ -3,10 +3,10 @@ import {
   errorMessage,
   getPosts,
   successMessage,
-} from './../state/blog.state';
-import { OwnerDto, PostDto } from './../../../../services/post/Dto/post.dto';
+} from '../../../state/blog/blog.state';
+import { OwnerDto, PostDto } from '../../../../services/post/Dto/post.dto';
 import { Component, Signal, signal } from '@angular/core';
-import { SidebarComponent } from '../../shared/sidebar/sidebar.component';
+import { SidebarComponent } from '../../../components/sidebar/sidebar.component';
 import {
   FormBuilder,
   FormGroup,
@@ -15,15 +15,19 @@ import {
   Validators,
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { DeletePost, LoadPosts, UpdatePost } from '../state/blog.action';
+import {
+  DeletePost,
+  LoadPosts,
+  UpdatePost,
+} from '../../../state/blog/blog.action';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../state/app/app.state';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { BrowserApiService } from '../../../../services/utils/browser.api.service';
-import { LoaderComponent } from '../../shared/loader/loader.component';
-import { EmptyComponent } from '../../shared/empty/empty.component';
+import { LoaderComponent } from '../../../components/loader/loader.component';
+import { EmptyComponent } from '../../../components/empty/empty.component';
 
 @Component({
   selector: 'blog-update',
@@ -119,7 +123,10 @@ export class UpdateComponent {
 
   loadCourse(): void {
     this.store.dispatch(
-      LoadPosts({ query: { page: 1, limit: 10, keyword: '' } })
+      LoadPosts({
+        query: { page: 1, limit: 10, keyword: '' },
+        IsReFetch: false,
+      })
     );
   }
 

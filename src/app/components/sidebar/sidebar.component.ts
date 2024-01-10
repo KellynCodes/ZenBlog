@@ -6,15 +6,14 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { PostDto } from '../../../../services/post/Dto/post.dto';
-import { LoadPosts } from '../../blog/state/blog.action';
+import { PostDto } from '../../../services/post/Dto/post.dto';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { IsPostLoading, getPosts } from '../../blog/state/blog.state';
+import { IsPostLoading, getPosts } from '../../state/blog/blog.state';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../../state/app/app.state';
+import { AppState } from '../../state/app/app.state';
 import { CommonModule } from '@angular/common';
 import { LoaderComponent } from '../loader/loader.component';
-import { Gallery, GalleryItem, IframeItem, YoutubeItem } from 'ng-gallery';
+import { Gallery, GalleryItem, IframeItem } from 'ng-gallery';
 import { LightboxModule } from 'ng-gallery/lightbox';
 
 @Component({
@@ -49,7 +48,7 @@ export class SidebarComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['post'].currentValue) {
+    if (changes['post']) {
       const newValue = changes?.['post'].currentValue as PostDto;
       this.post = newValue;
       this.loadItems();

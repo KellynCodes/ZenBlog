@@ -12,16 +12,15 @@ export class PostService {
   constructor(private http: HttpClient) {}
 
   createPost(newPost: CreatePostDto): Observable<HttpResponse<PostDto[]>> {
-    console.log(newPost);
     return this.http.post<HttpResponse<PostDto[]>>('post/create', newPost);
   }
 
   getPosts(
     query: QueryDto = { keyword: '', page: 1, limit: 10 }
   ): Observable<HttpResponse<PostDto[]>> {
-    return this.http.get<HttpResponse<PostDto[]>>(
-      `post?limit=${query.limit}?page=${query.page}?keyword=${query.keyword}`
-    );
+    console.log(query.page);
+    const url: string = `post?limit=${query.limit}?page=${query.page}?keyword=${query.keyword}`;
+    return this.http.get<HttpResponse<PostDto[]>>(url);
   }
 
   getPost(postId: string): Observable<HttpResponse<PostDto>> {

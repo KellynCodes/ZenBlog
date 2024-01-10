@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { BrowserApiService } from '../../../../services/utils/browser.api.service';
+import { BrowserApiService } from '../../../services/utils/browser.api.service';
 
 @Component({
   selector: 'blog-footer',

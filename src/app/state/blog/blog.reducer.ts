@@ -1,7 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import { errorMessage, initialPostState } from './blog.state';
+import { initialPostState } from './blog.state';
 import * as postActions from './blog.action';
-import { PostDto } from '../../../../services/post/Dto/post.dto';
+import { PostDto } from '../../../services/post/Dto/post.dto';
 
 const _postReducer = createReducer(
   initialPostState,
@@ -9,7 +9,7 @@ const _postReducer = createReducer(
     return {
       ...state,
       IsLoading: true,
-      errorMessage: '',
+      errorMessage: null,
     };
   }),
 
@@ -24,7 +24,8 @@ const _postReducer = createReducer(
   }),
 
   on(postActions.Success, (state, action) => {
-    if (action.posts != null && state.posts != null) {
+    if (action.posts != null && state.posts != null && !action.IsReFetch) {
+      console.log(`${action.IsReFetch}`, action.posts);
       return {
         ...state,
         posts: [...state.posts, ...action.posts] as PostDto[],
@@ -33,6 +34,7 @@ const _postReducer = createReducer(
         errorMessage: null,
       };
     }
+    console.log(`${action.IsReFetch}`, action.posts);
     return {
       ...state,
       posts: action.posts,

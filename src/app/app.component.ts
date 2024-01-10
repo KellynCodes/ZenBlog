@@ -6,8 +6,8 @@ import * as Aos from 'aos';
 import { AppState } from './state/app/app.state';
 import { Store } from '@ngrx/store';
 import { Subject, takeUntil } from 'rxjs';
-import { getPosts } from './components/blog/state/blog.state';
-import { LoadPosts } from './components/blog/state/blog.action';
+import { getPosts } from './state/blog/blog.state';
+import { LoadPosts } from './state/blog/blog.action';
 
 @Component({
   selector: 'blog-root',
@@ -29,18 +29,21 @@ export class AppComponent {
         mirror: false,
       });
     });
+  }
 
+  ngOnInit(): void {
     this.posts$.pipe(takeUntil(this.ngUnSubscribe)).subscribe((posts) => {
       if (posts == null) {
         this.store.dispatch(
-          LoadPosts({ query: { page: 1, limit: 10, keyword: '' } })
-        );
-      }
-    });
-  }
-
-  ngOnInit(): void {}
-
+             LoadPosts({
+               query: { page: 1, limit: 10, keyword: '' },
+               IsReFetch: false,
+            }) 
+          ); 
+         }
+       });
+  }   
+   
   ngOnDestroy(): void {
     this.ngUnSubscribe.complete();
   }

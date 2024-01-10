@@ -1,17 +1,17 @@
 import { Component, Signal, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { IsPostLoading, getPosts } from '../state/blog.state';
+import { IsPostLoading, getPosts } from '../../../state/blog/blog.state';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../state/app/app.state';
 import { PostDto } from '../../../../services/post/Dto/post.dto';
 import { ActivatedRoute, ParamMap, RouterLink } from '@angular/router';
-import { LoaderComponent } from '../../shared/loader/loader.component';
-import { DeletePost, LoadPosts } from '../state/blog.action';
+import { LoaderComponent } from '../../../components/loader/loader.component';
+import { DeletePost, LoadPosts } from '../../../state/blog/blog.action';
 import { Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { EmptyComponent } from '../../shared/empty/empty.component';
+import { EmptyComponent } from '../../../components/empty/empty.component';
 import { BrowserApiService } from '../../../../services/utils/browser.api.service';
-import { SidebarComponent } from '../../shared/sidebar/sidebar.component';
+import { SidebarComponent } from '../../../components/sidebar/sidebar.component';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -80,7 +80,10 @@ export class PostComponent {
 
   loadCourse(): void {
     this.store.dispatch(
-      LoadPosts({ query: { page: 1, limit: 10, keyword: '' } })
+      LoadPosts({
+        query: { page: 1, limit: 10, keyword: '' },
+        IsReFetch: false,
+      })
     );
   }
 

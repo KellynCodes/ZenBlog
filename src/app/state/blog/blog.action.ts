@@ -3,8 +3,8 @@ import {
   CreatePostDto,
   OwnerDto,
   PostDto,
-} from '../../../../services/post/Dto/post.dto';
-import { QueryDto } from '../../../../services/utils/dto';
+} from '../../../services/post/Dto/post.dto';
+import { QueryDto } from '../../../services/utils/dto';
 
 export const CreatePost = createAction(
   '[POST API] Create Post',
@@ -37,12 +37,12 @@ export const DeletePost = createAction(
 
 export const LoadPosts = createAction(
   '[POST API] Load Posts',
-  props<{ query: QueryDto }>()
+  props<{ query: QueryDto; IsReFetch: boolean }>()
 );
 
 export const Success = createAction(
   '[POST API] Load Posts Success',
-  props<{ posts: PostDto[]; successMessage: string }>()
+  props<{ posts: PostDto[]; successMessage: string; IsReFetch: boolean }>()
 );
 export const PostFailure = createAction(
   '[POST API] Load Posts Error',

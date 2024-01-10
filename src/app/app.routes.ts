@@ -1,11 +1,12 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
-import { NotFoundComponent, PostsComponent } from './components';
-import { PostComponent } from './components/blog/post/post.component';
-import { SearchResultComponent } from './components/search-result/search-result.component';
-import { CategoryComponent } from './components/blog/category/category.component';
-import { UpdateComponent } from './components/blog/update/update.component';
-import { CreateComponent } from './components/blog/create/create.component';
+import { NotFoundComponent } from './components';
+import { PostComponent } from './pages/post/post/post.component';
+import { SearchResultComponent } from './pages/post/search-result/search-result.component';
+import { CategoryComponent } from './pages/post/category/category.component';
+import { UpdateComponent } from './pages/post/update/update.component';
+import { CreateComponent } from './pages/post/create/create.component';
+import { PostsComponent } from './pages/post/posts/posts.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, title: 'Home' },

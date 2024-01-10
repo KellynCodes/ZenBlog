@@ -1,7 +1,7 @@
-import { errorMessage, successMessage } from './../state/blog.state';
-import { CreatePostDto } from './../../../../services/post/Dto/post.dto';
+import { errorMessage, successMessage } from '../../../state/blog/blog.state';
+import { CreatePostDto } from '../../../../services/post/Dto/post.dto';
 import { Component, Signal, signal } from '@angular/core';
-import { SidebarComponent } from '../../shared/sidebar/sidebar.component';
+import { SidebarComponent } from '../../../components/sidebar/sidebar.component';
 import {
   FormBuilder,
   FormGroup,
@@ -10,7 +10,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { CreatePost } from '../state/blog.action';
+import { CreatePost } from '../../../state/blog/blog.action';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../state/app/app.state';
 import { v4 as uuidv4 } from 'uuid';

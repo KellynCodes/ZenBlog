@@ -1,19 +1,16 @@
 import { AppState } from './../../state/app/app.state';
 import { CommonModule } from '@angular/common';
-import { Component, Signal, signal } from '@angular/core';
+import { Component, Signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { LoaderComponent, PostsComponent } from '../../components';
+import { LoaderComponent } from '../../components';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { Store } from '@ngrx/store';
-import {
-  IsPostLoading,
-  getPosts,
-} from '../../components/blog/state/blog.state';
+import { IsPostLoading, getPosts } from '../../state/blog/blog.state';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { PostDto } from '../../../services/post/Dto/post.dto';
-import { LoadPosts } from '../../components/blog/state/blog.action';
-import { Subject, takeUntil } from 'rxjs';
-import { EmptyComponent } from '../../components/shared/empty/empty.component';
+import { Subject } from 'rxjs';
+import { EmptyComponent } from '../../components/empty/empty.component';
+import { PostsComponent } from '../post/posts/posts.component';
 
 @Component({
   selector: 'blog-home',

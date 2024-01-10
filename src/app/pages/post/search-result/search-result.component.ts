@@ -1,26 +1,18 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  Signal,
-  SimpleChanges,
-  signal,
-} from '@angular/core';
-import { PostDto } from '../../../services/post/Dto/post.dto';
+import { Component, OnInit, Signal, signal } from '@angular/core';
+import { PostDto } from '../../../../services/post/Dto/post.dto';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { IsPostLoading, getPosts } from '../blog/state/blog.state';
+import { IsPostLoading, getPosts } from '../../../state/blog/blog.state';
 import { Subject, takeUntil } from 'rxjs';
-import { BrowserApiService } from '../../../services/utils/browser.api.service';
+import { BrowserApiService } from '../../../../services/utils/browser.api.service';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../state/app/app.state';
+import { AppState } from '../../../state/app/app.state';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
-import { PaginationComponent } from '../shared/pagination/pagination.component';
-import { LoadPosts } from '../blog/state/blog.action';
-import { SidebarComponent } from '../shared/sidebar/sidebar.component';
-import { EmptyComponent } from '../shared/empty/empty.component';
-import { LoaderComponent } from '../shared/loader/loader.component';
+import { PaginationComponent } from '../../../components/pagination/pagination.component';
+import { LoadPosts } from '../../../state/blog/blog.action';
+import { SidebarComponent } from '../../../components/sidebar/sidebar.component';
+import { EmptyComponent } from '../../../components/empty/empty.component';
+import { LoaderComponent } from '../../../components/loader/loader.component';
 
 @Component({
   selector: 'blog-search-result',
@@ -94,8 +86,14 @@ export class SearchResultComponent implements OnInit {
   }
 
   onPageChanged(page: number) {
+    console.log(page);
     this.currentPage.set(page);
-    LoadPosts({ query: { page: page, limit: 10, keyword: '' } });
+    this.store.dispatch(
+      LoadPosts({
+        query: { page: page, limit: 10, keyword: '' },
+        IsReFetch: true,
+      })
+    );
     this.searchPost(this.search()!);
   }
 }

@@ -4,8 +4,8 @@ import { catchError, exhaustMap, map, of, tap } from 'rxjs';
 import * as postActions from './blog.action';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
-import { AppState } from '../../../state/app/app.state';
-import { PostService } from '../../../../services/post/post.service';
+import { AppState } from '../app/app.state';
+import { PostService } from '../../../services/post/post.service';
 
 @Injectable({ providedIn: 'root' })
 export class PostEffect {
@@ -26,6 +26,7 @@ export class PostEffect {
             return postActions.Success({
               posts: res.data!,
               successMessage: '',
+              IsReFetch: action.IsReFetch,
             });
           }),
           catchError((error) => {
@@ -74,6 +75,7 @@ export class PostEffect {
             return postActions.Success({
               posts: res.data!,
               successMessage: 'Post created successfully',
+              IsReFetch: false,
             });
           }),
           catchError((error) => {
@@ -98,6 +100,7 @@ export class PostEffect {
             return postActions.Success({
               posts: res.data!,
               successMessage: 'Post updated Successfully.',
+              IsReFetch: false,
             });
           }),
           catchError((error) => {

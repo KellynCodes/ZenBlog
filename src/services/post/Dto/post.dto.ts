@@ -7,7 +7,7 @@ export interface PostDto {
   tags: Array<string>;
   text: string | null;
   title: string | null;
-  content: string;
+  body: string;
   updated: string;
 }
 

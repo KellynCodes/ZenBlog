@@ -5,7 +5,7 @@
       <div class="col-md-9">
         <h3 class="category-title">Search Results</h3>
         @if(isPostLoading()){
-        <blog-loader loadingText="Loading Your Search Result. Please wait." />
+        <blog-loader loadingText="Loading Your Search Result. Please wait..." />
         }@else{ @for (post of posts(); track post.id) {
         <div class="d-md-flex post-entry-2 small-img">
           <a routerLink="/post/{{ post.id }}" class="me-4 thumbnail">

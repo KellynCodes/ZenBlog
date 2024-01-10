@@ -18,7 +18,6 @@ export class PostService {
   getPosts(
     query: QueryDto = { keyword: '', page: 1, limit: 10 }
   ): Observable<HttpResponse<PostDto[]>> {
-    console.log(query.page);
     const url: string = `post?limit=${query.limit}?page=${query.page}?keyword=${query.keyword}`;
     return this.http.get<HttpResponse<PostDto[]>>(url);
   }

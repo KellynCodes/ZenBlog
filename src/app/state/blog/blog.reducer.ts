@@ -14,6 +14,14 @@ const _postReducer = createReducer(
   }),
 
   on(postActions.DeletePost, (state, action) => {
+    return {
+      ...state,
+      IsLoading: true,
+      errorMessage: null,
+    };
+  }),
+
+  on(postActions.DeletePostSuccess, (state, action) => {
     const posts = state.posts!.filter((course) => course.id !== action.postId);
     return {
       ...state,

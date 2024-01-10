@@ -1,27 +1,80 @@
-# StackbuildBlogSite
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.0.
+---
 
-## Development server
+# Angular Blogging App Documentation
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Overview
 
-## Code scaffolding
+The Angular Blogging App is a Single Page Application (SPA) built with Angular and Angular Server-Side Rendering (SSR). It incorporates various features for a seamless blogging experience, including CRUD operations, pagination, search filtering, state management, and several third-party libraries and tools for enhanced functionality and aesthetics.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Features
 
-## Build
+1. **Angular SSR:**
+   - The app leverages Angular Server-Side Rendering for improved performance and SEO optimization.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+2. **CRUD Operations:**
+   - Full implementation of Create, Read, Update, and Delete (CRUD) operations for blog posts.
 
-## Running unit tests
+3. **Pagination and Search Filtering:**
+   - The app provides pagination for easy navigation through blog posts.
+   - Incorporates search filtering for efficient content discovery.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+4. **State Management with Ngrx:**
+   - Utilizes Ngrx for robust state management, ensuring a scalable and maintainable application.
 
-## Running end-to-end tests
+5. **Styling with Bootstrap and Tailwind CSS:**
+   - Combines the styling capabilities of Bootstrap and Tailwind CSS for a visually appealing and responsive design.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+6. **Carousel Slider:**
+   - Integrates `ngx-slick-carousel`, `slick-carousel`, and `jquery` to implement a feature-rich carousel slider for dynamic and interactive content presentation.
 
-## Further help
+7. **Animation with AOS:**
+   - Employs AOS (Animate On Scroll) for smooth and engaging animations throughout the app.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+8. **Alerts with ngx-toastr:**
+   - Implements `ngx-toastr` for displaying user-friendly alerts, enhancing the user experience.
+
+9. **Lightbox Display with ng-gallery:**
+   - Utilizes `ng-gallery` for an elegant lightbox display, supporting image viewing and playing YouTube videos.
+
+10. **Reactive Forms for Post Management:**
+    - Leverages Angular Reactive Forms for creating and updating blog posts, ensuring a dynamic and user-friendly experience.
+
+11. **Angular 17 Updates:**
+    - Takes advantage of the latest features in Angular 17, including the use of `signal` and `toSignal` for enhanced functionality and subscribing to observables without using async pipes. This feature of subscribing to observables with `toSignal` ```typescript
+    this.posts = toSignal(this.posts$, {initialValue: null})
+    ``` makes it simple to use observable without having to make sure you unsubscribe from the observable when the component is terminated.
+
+## Installation
+
+To run the Angular Blogging App locally:
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/KellynCodes/stackbuild-blog-site.git
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   cd angular-blogging-app
+   npm install
+   ```
+
+3. Build and serve the app:
+
+   ```bash
+   npm run build:ssr
+   npm run serve:ssr
+   ```
+
+4. Access the app in your browser at `http://localhost:4200`.
+
+## Conclusion
+
+The Angular Blogging App combines modern technologies and libraries to provide a feature-rich and visually appealing blogging experience. It incorporates the latest Angular updates, ensuring scalability and performance. Feel free to explore the source code and customize it according to your requirements.
+
+For detailed information on specific features, refer to the relevant sections of this documentation.
+
+---

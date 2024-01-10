@@ -99,7 +99,7 @@ export class CreateComponent {
       tags: this.createPostForm.value.tags,
       likes: 0,
       text: this.createPostForm.value.content,
-      owner: '60d0fe4f5311236168a109e7',
+      owner: uuidv4(),
       // firstName: this.createPostForm.value.ownerFirstName,
       // lastName: this.createPostForm.value.ownerLastName,
       // picture: this.createPostForm.value.ownerPicture,

@@ -23,6 +23,7 @@ export class PostEffect {
       exhaustMap((action) =>
         this.postService.getPosts(action.query!).pipe(
           map((res) => {
+            console.log(res);
             return postActions.Success({
               posts: res.data!,
               successMessage: '',
@@ -30,6 +31,7 @@ export class PostEffect {
             });
           }),
           catchError((error) => {
+            console.log(error);
             return of(
               postActions.PostFailure({
                 IsLoading: false,
@@ -122,7 +124,8 @@ export class PostEffect {
       exhaustMap((action) =>
         this.postService.deletePost(action.postId).pipe(
           map((res) => {
-            return postActions.ResetPostFetchState();
+            this.toastr.success('Post deleted', 'Success');
+            return postActions.DeletePostSuccess({ postId: action.postId });
           }),
           catchError((error) => {
             return of(

@@ -79,7 +79,6 @@ export class SearchResultComponent implements OnInit {
       this.totalPages.set(totalPages);
     }
     this.totalPages.set(this.posts()?.length! - 1);
-    console.log(filteredPosts);
     if (this.browserApi.isBrowser) {
       window.scrollTo(0, 0);
     }

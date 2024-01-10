@@ -1,7 +1,7 @@
 <!-- ======= Post Grid Section ======= -->
 @if(isPostLoading()){
 <blog-loader loadingText="Loading Post..." />
-} @if(posts()){
+}@else if(posts()){
 <section id="posts" class="posts !mt-8">
   <div class="container" data-aos="fade-up">
     <div class="row g-5">
@@ -15,15 +15,15 @@
             <span class="date">{{ tag }}</span>
             }
             <span class="mx-1">&bullet;</span>
-            <span> {{ posts()![0].publishDate }} </span>
+            <span> {{ posts()![0].publishDate | date }} </span>
           </div>
           <h2>
             <a [routerLink]="['post', posts()![0].id]">{{
-              posts()![0].text
+              posts()![0].title
             }}</a>
           </h2>
           <p class="mb-4 d-block">
-            {{ posts()![0].text }}
+            {{ posts()![0].title }}
           </p>
 
           <div class="d-flex align-items-center author">
@@ -46,15 +46,15 @@
                 ><img [src]="post.image" alt="" class="img-fluid"
               /></a>
               <div class="post-meta">
-                @for (tag of post?.tags; track $index) {
+                @for (tag of post.tags; track $index) {
                 <span class="date">{{ tag }}</span>
                 }
                 <span class="mx-1">&bullet;</span>
-                <span> {{ post.publishDate }} </span>
+                <span> {{ post?.publishDate | date }} </span>
               </div>
               <h2>
                 <a [routerLink]="['/post', post.id]">
-                  {{ post.text }}
+                  {{ post.title }}
                 </a>
               </h2>
             </div>
@@ -68,6 +68,7 @@
             (pageChanged)="onPageChanged($event)"
           />
 
+          @if(viewTrending){
           <!-- Trending Section -->
           <div class="col-lg-4">
             <div class="trending">
@@ -78,8 +79,8 @@
                   <a [routerLink]="['/post', trendingPost.id]">
                     <span class="number">1</span>
                     <h3>
-                      {{ trendingPost.text }}
-                      {{ trendingPost.text }}
+                      {{ trendingPost.title }}
+                      {{ trendingPost.title }}
                     </h3>
                     <span class="author">
                       {{
@@ -94,6 +95,7 @@
               </ul>
             </div>
           </div>
+          }
           <!-- End Trending Section -->
         </div>
       </div>

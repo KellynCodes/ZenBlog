@@ -35,6 +35,11 @@ export const DeletePost = createAction(
   props<{ postId: string; isDeleting: boolean }>()
 );
 
+export const DeletePostSuccess = createAction(
+  '[POST API] Delete Post Success',
+  props<{ postId: string }>()
+);
+
 export const LoadPosts = createAction(
   '[POST API] Load Posts',
   props<{ query: QueryDto; IsReFetch: boolean }>()

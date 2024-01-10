@@ -35,15 +35,15 @@ export class AppComponent {
     this.posts$.pipe(takeUntil(this.ngUnSubscribe)).subscribe((posts) => {
       if (posts == null) {
         this.store.dispatch(
-             LoadPosts({
-               query: { page: 1, limit: 10, keyword: '' },
-               IsReFetch: false,
-            }) 
-          ); 
-         }
-       });
-  }   
-   
+          LoadPosts({
+            query: { page: 1, limit: 10, keyword: '' },
+            IsReFetch: false,
+          })
+        );
+      }
+    });
+  }
+
   ngOnDestroy(): void {
     this.ngUnSubscribe.complete();
   }

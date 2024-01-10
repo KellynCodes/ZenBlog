@@ -28,6 +28,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { BrowserApiService } from '../../../../services/utils/browser.api.service';
 import { LoaderComponent } from '../../../components/loader/loader.component';
 import { EmptyComponent } from '../../../components/empty/empty.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'blog-update',
@@ -38,6 +39,7 @@ import { EmptyComponent } from '../../../components/empty/empty.component';
     ReactiveFormsModule,
     LoaderComponent,
     EmptyComponent,
+    CommonModule,
   ],
   templateUrl: './update.component.html',
   styleUrl: './update.component.scss',
@@ -181,7 +183,7 @@ export class UpdateComponent {
       // title: this.createPostForm.value.ownerTitle,
       publishDate: new Date().toISOString(),
       title: this.createPostForm.value.title,
-      content: this.createPostForm.value.content,
+      body: this.createPostForm.value.content,
       updated: new Date().toISOString(),
     };
     this.store.dispatch(

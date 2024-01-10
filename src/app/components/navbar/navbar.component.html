@@ -48,7 +48,9 @@
       ><span class="text-2xl bi-search"></span
     ></a>
     <!-- ======= Search Form ======= -->
-    <div class="search-form-wrap js-search-form-wrap">
+    <div
+      class="search-form-wrap js-search-form-wrap bg-slate-900 !p-4 !rounded-md"
+    >
       <form
         [formGroup]="searchForm"
         (ngSubmit)="onSubmit()"
@@ -56,15 +58,32 @@
       >
         <span class="icon bi-search"></span>
         <input
-          type="text"
+          type="search"
           placeholder="Search Posts"
           formControlName="searchKeyword"
           class="form-control"
+          autofocus
         />
         <button type="button" class="btn js-search-close">
           <span class="text-3xl bi-x"></span>
         </button>
-        <button [disabled]="isSending()" type="submit" hidden></button>
+        <div
+          class="w-[80%] mx-auto h-auto flex items-center justify-between gap-4"
+        >
+          <button
+            type="button"
+            class="text-sm font-bold bg-red-400 hover:bg-red-500 js-search-close text-white py-2 px-4 text-center rounded-md"
+          >
+            Close
+          </button>
+          <button
+            [disabled]="isSending()"
+            type="submit"
+            class="text-sm font-bold bg-slate-600 hover:bg-slate-700 text-white py-2 px-4 text-center rounded-md"
+          >
+            Search
+          </button>
+        </div>
       </form>
     </div>
     <!-- End Search Form -->

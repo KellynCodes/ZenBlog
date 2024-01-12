@@ -47,7 +47,7 @@
             @if(isPostLoading()){
             <blog-loader loadingText="Loading Post tags..." />
             }@else if(posts()){ @for(post of posts(); track post.id){ @for(tag
-            of post.tags; track $index){
+            of postTags(); track $index){
             <li>
               <a routerLink="/{{ tag }}"
                 ><i class="bi bi-chevron-right"></i> {{ tag }}

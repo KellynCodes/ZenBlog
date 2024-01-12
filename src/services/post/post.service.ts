@@ -11,8 +11,8 @@ import { QueryDto } from '../utils/dto';
 export class PostService {
   constructor(private http: HttpClient) {}
 
-  createPost(newPost: CreatePostDto): Observable<ApiResponse<PostDto>> {
-    return this.http.post<ApiResponse<PostDto>>('post/create', newPost);
+  createPost(newPost: CreatePostDto): Observable<PostDto> {
+    return this.http.post<PostDto>('post/create', newPost);
   }
 
   getPosts(

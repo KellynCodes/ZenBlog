@@ -13,12 +13,12 @@ export const CreatePost = createAction(
 );
 
 export const CreatePostSuccess = createAction(
-  '[POST API] Create Post',
-  props<{ post: PostDto }>()
+  '[POST API] Create Post Success',
+  props<{ post: PostDto | null }>()
 );
 
 export const CreateUser = createAction(
-  '[POST API] Create Post',
+  '[POST API] Create User',
   props<{ post: OwnerDto; IsPostLoading: boolean }>()
 );
 
@@ -38,7 +38,7 @@ export const GetCourse = createAction(
 );
 
 export const GetCourseSuccess = createAction(
-  '[POST API] Get Post',
+  '[POST API] Get Post Success',
   props<{ post: PostDto }>()
 );
 
@@ -62,12 +62,6 @@ export const LoadPostsSuccess = createAction(
   props<{ data: ApiResponse<PostDto[]> }>()
 );
 
-export const Success = createAction(
-  '[POST API] Load Posts Success',
-  props<{
-    successMessage: string;
-  }>()
-);
 export const PostFailure = createAction(
   '[POST API] Load Posts Error',
   props<{ IsLoading: boolean; errorMessage: string }>()

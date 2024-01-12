@@ -47,7 +47,7 @@
 
   @if (isPostLoading()) {
   <blog-loader loadingText="Loading Posts..." />
-  }@else if(posts()){
+  }@else if(posts() != null){
   <div class="tab-content" id="pills-tabContent">
     <!-- Popular -->
     <div

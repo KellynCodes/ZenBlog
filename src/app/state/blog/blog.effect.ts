@@ -1,6 +1,7 @@
+import { PostComponent } from './../../pages/post/post/post.component';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, exhaustMap, map, of, tap } from 'rxjs';
+import { EMPTY, catchError, exhaustMap, map, of, takeLast, tap } from 'rxjs';
 import * as postActions from './blog.action';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
@@ -25,7 +26,7 @@ export class PostEffect {
         this.postService.getPosts(action.query!).pipe(
           map((res) => {
             this.toastr.success(
-              'Post Fetch Successful. \n Press CRTL + K or click on the search bar to search for post by title.',
+              'Post Fetch Successful. Press CRTL + K or click on the search bar to search for post by title.',
               'Success'
             );
             setTimeout(() => {
@@ -39,7 +40,7 @@ export class PostEffect {
             return of(
               postActions.PostFailure({
                 IsLoading: false,
-                errorMessage: error.error.message,
+                errorMessage: error?.error?.message,
               })
             );
           })
@@ -63,7 +64,7 @@ export class PostEffect {
             return of(
               postActions.PostFailure({
                 IsLoading: false,
-                errorMessage: error.error,
+                errorMessage: error?.error?.message,
               })
             );
           })
@@ -77,20 +78,16 @@ export class PostEffect {
       ofType(postActions.CreatePost),
       exhaustMap((action) =>
         this.postService.createPost(action.post).pipe(
-          map((res) => {
-            this.toastr.success('Post created successfully', 'Success');
-            setTimeout(() => {
-              this.toastr.clear();
-            }, 3000);
+          map((post) => {
             return postActions.CreatePostSuccess({
-              post: res.data!,
+              post: post,
             });
           }),
           catchError((error) => {
             return of(
               postActions.PostFailure({
                 IsLoading: false,
-                errorMessage: error,
+                errorMessage: error?.error?.message,
               })
             );
           })
@@ -107,14 +104,14 @@ export class PostEffect {
           map((res) => {
             this.toastr.success('Post Updated successfully', 'Success');
             return postActions.UpdatePostSuccess({
-              post: res.data!,
+              post: action.post,
             });
           }),
           catchError((error) => {
             return of(
               postActions.PostFailure({
                 IsLoading: false,
-                errorMessage: error.error?.message,
+                errorMessage: error?.error?.message,
               })
             );
           })
@@ -136,7 +133,7 @@ export class PostEffect {
             return of(
               postActions.PostFailure({
                 IsLoading: false,
-                errorMessage: error.error?.message,
+                errorMessage: error?.error?.message,
               })
             );
           })

@@ -1,7 +1,7 @@
 import { Component, OnInit, Signal, signal } from '@angular/core';
 import { PostDto } from '../../../../services/post/Dto/post.dto';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { IsPostLoading, getPosts } from '../../../state/blog/blog.state';
+import { IsPostLoading, getData } from '../../../state/blog/blog.state';
 import { Subject, takeUntil } from 'rxjs';
 import { BrowserApiService } from '../../../../services/utils/browser.api.service';
 import { Store } from '@ngrx/store';
@@ -30,7 +30,7 @@ import { LoaderComponent } from '../../../components/loader/loader.component';
 })
 export class SearchResultComponent implements OnInit {
   search = signal<string | null>(null);
-  posts$ = this.store.select(getPosts);
+  data$ = this.store.select(getData);
   isPostLoading$ = this.store.select(IsPostLoading);
   posts = signal<PostDto[] | null>(null);
   isPostLoading!: Signal<boolean>;
@@ -65,20 +65,16 @@ export class SearchResultComponent implements OnInit {
 
   searchPost(searchKeyword: string): void {
     let filteredPosts;
-    this.posts$?.pipe(takeUntil(this.ngUnSubscribe)).subscribe((posts) => {
-      filteredPosts = posts?.filter((p) => {
+    this.data$?.pipe(takeUntil(this.ngUnSubscribe)).subscribe((res) => {
+      filteredPosts = res?.data?.filter((p) => {
         if (searchKeyword != null) {
           return p.text!.toLowerCase().includes(searchKeyword?.toLowerCase()!);
         }
         return null;
       });
+      this.totalPages.set(res?.total!);
     });
     this.posts.set(filteredPosts!);
-    if (this.posts()?.length! - 1 > 10) {
-      const totalPages = this.currentPage() / this.itemsPerPage;
-      this.totalPages.set(totalPages);
-    }
-    this.totalPages.set(this.posts()?.length! - 1);
     if (this.browserApi.isBrowser) {
       window.scrollTo(0, 0);
     }

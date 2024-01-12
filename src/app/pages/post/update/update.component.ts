@@ -1,7 +1,7 @@
 import {
   IsPostLoading,
   errorMessage,
-  getPosts,
+  getData,
   successMessage,
 } from '../../../state/blog/blog.state';
 import { OwnerDto, PostDto } from '../../../../services/post/Dto/post.dto';
@@ -51,7 +51,7 @@ export class UpdateComponent {
   private errorMessage$ = this.store.select(errorMessage);
   private successMessage!: Signal<string | null>;
   private errorMessage!: Signal<string | null>;
-  posts$ = this.store.select(getPosts);
+  data$ = this.store.select(getData);
   post!: PostDto | undefined;
   postId!: string;
   postDescriptionFirstCharacter!: string;
@@ -114,8 +114,8 @@ export class UpdateComponent {
   }
 
   getPost(postId: string): void {
-    this.posts$?.pipe(takeUntil(this.ngUnSubscribe)).subscribe((post) => {
-      this.post = post?.find((x) => x.id == postId);
+    this.data$?.pipe(takeUntil(this.ngUnSubscribe)).subscribe((res) => {
+      this.post = res?.data?.find((x) => x.id == postId);
     });
     this.postDescriptionFirstCharacter = this.post?.text![0]!;
     if (this.browserApi.isBrowser) {

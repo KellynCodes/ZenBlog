@@ -18,7 +18,7 @@
               <span> {{ post.publishDate | date }} </span>
             </div>
             <h3>
-              <a [routerLink]="['post', post.id]"> {{ post.text }} </a>
+              <a [routerLink]="['/post', post.id]"> {{ post.text }} </a>
             </h3>
             <p>
               {{ post.text }}

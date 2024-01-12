@@ -30,6 +30,8 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch(), withInterceptorsFromDi()),
     { provide: HTTP_INTERCEPTORS, useClass: JwtTokenInterceptor, multi: true },
     provideToastr({
+      closeButton: true,
+      progressBar: true,
       maxOpened: 8,
       autoDismiss: true,
       timeOut: 3000,

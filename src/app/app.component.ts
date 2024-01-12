@@ -6,7 +6,7 @@ import * as Aos from 'aos';
 import { AppState } from './state/app/app.state';
 import { Store } from '@ngrx/store';
 import { Subject, takeUntil } from 'rxjs';
-import { getPosts } from './state/blog/blog.state';
+import { getData } from './state/blog/blog.state';
 import { LoadPosts } from './state/blog/blog.action';
 
 @Component({
@@ -18,7 +18,7 @@ import { LoadPosts } from './state/blog/blog.action';
 })
 export class AppComponent {
   public ngUnSubscribe = new Subject();
-  posts$ = this.store.select(getPosts);
+  posts$ = this.store.select(getData);
 
   constructor(private store: Store<AppState>) {
     afterRender(() => {
@@ -36,7 +36,7 @@ export class AppComponent {
       if (posts == null) {
         this.store.dispatch(
           LoadPosts({
-            query: { page: 1, limit: 10, keyword: '' },
+            query: { page: 0, limit: 10, keyword: '' },
             IsReFetch: false,
           })
         );

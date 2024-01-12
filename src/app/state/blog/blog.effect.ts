@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { AppState } from '../app/app.state';
 import { PostService } from '../../../services/post/post.service';
+import { PostDto } from '../../../services/post/Dto/post.dto';
 
 @Injectable({ providedIn: 'root' })
 export class PostEffect {
@@ -23,15 +24,18 @@ export class PostEffect {
       exhaustMap((action) =>
         this.postService.getPosts(action.query!).pipe(
           map((res) => {
-            console.log(res);
-            return postActions.Success({
-              posts: res.data!,
-              successMessage: '',
-              IsReFetch: action.IsReFetch,
+            this.toastr.success(
+              'Post Fetch Successful. \n Press CRTL + K or click on the search bar to search for post by title.',
+              'Success'
+            );
+            setTimeout(() => {
+              this.toastr.clear();
+            }, 5000);
+            return postActions.LoadPostsSuccess({
+              data: res!,
             });
           }),
           catchError((error) => {
-            console.log(error);
             return of(
               postActions.PostFailure({
                 IsLoading: false,
@@ -44,12 +48,13 @@ export class PostEffect {
     )
   );
 
-  GetCourseRequest$ = createEffect(() =>
+  GetPostRequest$ = createEffect(() =>
     this.actions$.pipe(
       ofType(postActions.GetCourse),
       exhaustMap((action) =>
         this.postService.getPost(action.postId).pipe(
           map((res) => {
+            this.toastr.success('Course fetched.', 'Success');
             return postActions.GetCourseSuccess({
               post: res.data!,
             });
@@ -73,11 +78,12 @@ export class PostEffect {
       exhaustMap((action) =>
         this.postService.createPost(action.post).pipe(
           map((res) => {
-            console.log(res);
-            return postActions.Success({
-              posts: res.data!,
-              successMessage: 'Post created successfully',
-              IsReFetch: false,
+            this.toastr.success('Post created successfully', 'Success');
+            setTimeout(() => {
+              this.toastr.clear();
+            }, 3000);
+            return postActions.CreatePostSuccess({
+              post: res.data!,
             });
           }),
           catchError((error) => {
@@ -99,10 +105,9 @@ export class PostEffect {
       exhaustMap((action) =>
         this.postService.UpdatePost(action.postId, action.post).pipe(
           map((res) => {
-            return postActions.Success({
-              posts: res.data!,
-              successMessage: 'Post updated Successfully.',
-              IsReFetch: false,
+            this.toastr.success('Post Updated successfully', 'Success');
+            return postActions.UpdatePostSuccess({
+              post: res.data!,
             });
           }),
           catchError((error) => {
@@ -147,23 +152,6 @@ export class PostEffect {
         tap((error) => {
           if (error.errorMessage.length > 0) {
             this.toastr.error(error.errorMessage, 'Error');
-            setTimeout(() => {
-              this.store.dispatch(postActions.ResetPostFetchState());
-              this.toastr.clear();
-            }, 3000);
-          }
-        })
-      ),
-    { dispatch: false }
-  );
-
-  resetCourseSuccessMessage$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(postActions.Success),
-        tap((success) => {
-          if (success.successMessage.length > 0) {
-            this.toastr.success(success.successMessage, 'Success');
             setTimeout(() => {
               this.store.dispatch(postActions.ResetPostFetchState());
               this.toastr.clear();

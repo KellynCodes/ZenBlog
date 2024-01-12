@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+  signal,
+} from '@angular/core';
 
 @Component({
   selector: 'blog-pagination',
@@ -8,14 +16,25 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.scss'],
 })
-export class PaginationComponent {
+export class PaginationComponent implements OnChanges {
   @Input({ required: true }) currentPage!: number;
   @Input({ required: true }) totalPages!: number;
   @Input({ required: true }) itemsPerPage!: number;
   @Output() pageChanged = new EventEmitter<number>();
 
-  get pages(): number[] {
-    return Array.from({ length: this.totalPages }, (_, index) => index + 1);
+  pages = signal<number>(0);
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const newPage = changes['currentPage'].currentValue;
+    if (changes['currentPage']) {
+      const pages = this.totalPages - newPage * this.itemsPerPage;
+      console.log('new total pages', pages);
+      this.pages.set(pages);
+      return;
+    }
+
+    this.pages.set(this.totalPages - this.currentPage * this.itemsPerPage);
+    console.log(this.pages);
   }
 
   prevPage() {

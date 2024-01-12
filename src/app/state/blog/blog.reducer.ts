@@ -2,6 +2,7 @@ import { Action, createReducer, on } from '@ngrx/store';
 import { initialPostState } from './blog.state';
 import * as postActions from './blog.action';
 import { PostDto } from '../../../services/post/Dto/post.dto';
+import { ApiResponse } from '../../../data/shared/api.response';
 
 const _postReducer = createReducer(
   initialPostState,
@@ -10,6 +11,44 @@ const _postReducer = createReducer(
       ...state,
       IsLoading: true,
       errorMessage: null,
+    };
+  }),
+
+  on(postActions.LoadPostsSuccess, (state, action) => {
+    return {
+      ...state,
+      data: action.data,
+      IsLoading: false,
+      errorMessage: null,
+    };
+  }),
+
+  on(postActions.UpdatePost, (state, action) => {
+    return {
+      ...state,
+      IsLoading: true,
+      errorMessage: null,
+    };
+  }),
+
+  on(postActions.CreatePost, (state, action) => {
+    return {
+      ...state,
+      IsLoading: true,
+      errorMessage: null,
+    };
+  }),
+
+  on(postActions.CreatePostSuccess, (state, action) => {
+    const data: ApiResponse<PostDto[]> = {
+      data: [...state.data?.data!, action.post],
+      limit: state.data?.limit! + 1,
+      page: state.data?.page! + 1,
+      total: state.data?.total! + 1,
+    };
+    return {
+      ...state,
+      data: data,
     };
   }),
 
@@ -22,33 +61,32 @@ const _postReducer = createReducer(
   }),
 
   on(postActions.DeletePostSuccess, (state, action) => {
-    const posts = state.posts!.filter((course) => course.id !== action.postId);
+    const posts = state.data?.data as PostDto[];
+    const newPosts = posts!.filter((course) => course.id !== action.postId);
+    const data: ApiResponse<PostDto[]> = {
+      data: newPosts,
+      limit: state.data?.limit!,
+      total: state.data?.total!,
+      page: state.data?.page!,
+    };
     return {
       ...state,
-      posts: posts,
+      data: data,
       IsLoading: false,
       errorMessage: null,
     };
   }),
 
-  on(postActions.Success, (state, action) => {
-    if (action.posts != null && state.posts != null && !action.IsReFetch) {
-      console.log(`${action.IsReFetch}`, action.posts);
-      return {
-        ...state,
-        posts: [...state.posts, ...action.posts] as PostDto[],
-        IsLoading: false,
-        successMessage: action.successMessage,
-        errorMessage: null,
-      };
-    }
-    console.log(`${action.IsReFetch}`, action.posts);
+  on(postActions.UpdatePostSuccess, (state, action) => {
+    const data: ApiResponse<PostDto[]> = {
+      data: [...state?.data?.data!, action.post],
+      limit: state.data?.limit!,
+      page: state.data?.page!,
+      total: state.data?.total!,
+    };
     return {
       ...state,
-      posts: action.posts,
-      IsLoading: false,
-      successMessage: action.successMessage,
-      errorMessage: null,
+      data: data,
     };
   }),
 
@@ -63,6 +101,7 @@ const _postReducer = createReducer(
   on(postActions.ResetPostFetchState, (state, action) => {
     return {
       ...state,
+      successMessage: null,
       errorMessage: null,
       IsLoading: false,
     };

@@ -4,11 +4,12 @@ import {
   OnChanges,
   Signal,
   SimpleChanges,
+  signal,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { PostDto } from '../../../services/post/Dto/post.dto';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { IsPostLoading, getPosts } from '../../state/blog/blog.state';
+import { IsPostLoading, getData } from '../../state/blog/blog.state';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../state/app/app.state';
 import { CommonModule } from '@angular/common';
@@ -24,10 +25,10 @@ import { LightboxModule } from 'ng-gallery/lightbox';
   styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent implements OnChanges {
-  posts$ = this.store.select(getPosts);
+  posts$ = this.store.select(getData);
   isPostLoading$ = this.store.select(IsPostLoading);
   isPostLoading!: Signal<boolean>;
-  posts!: Signal<PostDto[] | null>;
+  posts = signal<PostDto[] | null>(null);
   data = [
     {
       srcUrl: 'https://www.youtube.com/embed/V-D2sk_azcs',
@@ -42,9 +43,11 @@ export class SidebarComponent implements OnChanges {
     this.isPostLoading = toSignal(this.isPostLoading$, {
       initialValue: false,
     });
-    this.posts = toSignal(this.posts$, {
-      initialValue: null,
-    });
+    this.posts.set(
+      toSignal(this.posts$, {
+        initialValue: null,
+      })()?.data!
+    );
   }
 
   ngOnChanges(changes: SimpleChanges): void {

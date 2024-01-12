@@ -1,20 +1,19 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { ApiResponse } from '../../../data/shared/api.response';
 import { PostDto } from '../../../services/post/Dto/post.dto';
 
-export const POST_STATE_NAME = 'post';
+export const POST_STATE_NAME = 'data';
 
 export interface PostState {
-  posts: PostDto[] | null;
+  data: ApiResponse<PostDto[]> | null;
   IsLoading: boolean;
-  IsReFetch: boolean;
-  successMessage: string | null;
   errorMessage: string | null;
+  successMessage: string | null;
 }
 
 export const initialPostState: PostState = {
-  posts: null,
+  data: null,
   IsLoading: false,
-  IsReFetch: false,
   successMessage: null,
   errorMessage: null,
 };
@@ -22,10 +21,7 @@ export const initialPostState: PostState = {
 export const PostStateSelector =
   createFeatureSelector<PostState>(POST_STATE_NAME);
 
-export const getPosts = createSelector(
-  PostStateSelector,
-  (state) => state.posts
-);
+export const getData = createSelector(PostStateSelector, (state) => state.data);
 
 export const IsPostLoading = createSelector(
   PostStateSelector,

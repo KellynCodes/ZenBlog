@@ -5,19 +5,31 @@ import {
   PostDto,
 } from '../../../services/post/Dto/post.dto';
 import { QueryDto } from '../../../services/utils/dto';
+import { ApiResponse } from '../../../data/shared/api.response';
 
 export const CreatePost = createAction(
   '[POST API] Create Post',
   props<{ post: CreatePostDto; IsPostLoading: boolean }>()
 );
 
+export const CreatePostSuccess = createAction(
+  '[POST API] Create Post',
+  props<{ post: PostDto }>()
+);
+
 export const CreateUser = createAction(
   '[POST API] Create Post',
   props<{ post: OwnerDto; IsPostLoading: boolean }>()
 );
+
 export const UpdatePost = createAction(
   '[POST API] Update Post',
   props<{ postId: string; post: PostDto; IsPostLoading: boolean }>()
+);
+
+export const UpdatePostSuccess = createAction(
+  '[POST API] Update Post Success',
+  props<{ post: PostDto }>()
 );
 
 export const GetCourse = createAction(
@@ -45,9 +57,16 @@ export const LoadPosts = createAction(
   props<{ query: QueryDto; IsReFetch: boolean }>()
 );
 
+export const LoadPostsSuccess = createAction(
+  '[POST API] Load Posts Success',
+  props<{ data: ApiResponse<PostDto[]> }>()
+);
+
 export const Success = createAction(
   '[POST API] Load Posts Success',
-  props<{ posts: PostDto[]; successMessage: string; IsReFetch: boolean }>()
+  props<{
+    successMessage: string;
+  }>()
 );
 export const PostFailure = createAction(
   '[POST API] Load Posts Error',

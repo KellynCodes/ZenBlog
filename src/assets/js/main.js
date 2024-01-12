@@ -108,4 +108,17 @@ document.addEventListener("DOMContentLoaded", () => {
       searchOpen.classList.remove("close");
     });
   });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.ctrlKey && event.key === "k") {
+      event.preventDefault();
+      if (searchWrap.classList.contains("active")) {
+        searchWrap.classList.remove("active");
+        searchOpen.classList.remove("close");
+        return;
+      }
+      searchWrap.classList.add("active");
+      searchOpen.classList.add("close");
+    }
+  });
 });

@@ -2,7 +2,7 @@ import { Component, Signal, signal } from '@angular/core';
 import { BrowserApiService } from '../../../services/utils/browser.api.service';
 import { EmptyComponent } from '../empty/empty.component';
 import { LoaderComponent } from '../loader/loader.component';
-import { IsPostLoading, getPosts } from '../../state/blog/blog.state';
+import { IsPostLoading, getData } from '../../state/blog/blog.state';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../state/app/app.state';
@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './footer.component.scss',
 })
 export class FooterComponent {
-  posts$ = this.store.select(getPosts);
+  data$ = this.store.select(getData);
   posts = signal<PostDto[] | null>(null);
   isPostLoading$ = this.store.select(IsPostLoading);
   isPostLoading!: Signal<boolean>;
@@ -30,9 +30,10 @@ export class FooterComponent {
     this.isPostLoading = toSignal(this.isPostLoading$, {
       initialValue: false,
     });
-    const posts: PostDto[] = toSignal(this.posts$, {
+    const posts: PostDto[] = toSignal(this.data$, {
       initialValue: null,
-    })()?.slice(0, 5)!;
+    })()?.data!;
+    console.log(posts);
     this.posts.set(posts);
   }
 

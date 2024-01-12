@@ -1,4 +1,4 @@
-import { HttpResponse } from './../../data/shared/http.response.dto';
+import { ApiResponse } from '../../data/shared/api.response';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -11,32 +11,30 @@ import { QueryDto } from '../utils/dto';
 export class PostService {
   constructor(private http: HttpClient) {}
 
-  createPost(newPost: CreatePostDto): Observable<HttpResponse<PostDto[]>> {
-    return this.http.post<HttpResponse<PostDto[]>>('post/create', newPost);
+  createPost(newPost: CreatePostDto): Observable<ApiResponse<PostDto>> {
+    return this.http.post<ApiResponse<PostDto>>('post/create', newPost);
   }
 
   getPosts(
-    query: QueryDto = { keyword: '', page: 1, limit: 10 }
-  ): Observable<HttpResponse<PostDto[]>> {
-    const url: string = `post?limit=${query.limit}?page=${query.page}?keyword=${query.keyword}`;
-    return this.http.get<HttpResponse<PostDto[]>>(url);
+    query: QueryDto = { keyword: '', page: 0, limit: 10 }
+  ): Observable<ApiResponse<PostDto[]>> {
+    return this.http.get<ApiResponse<PostDto[]>>(
+      `post?limit=${query.limit}&page=${query.page}&keyword=${query.keyword}`
+    );
   }
 
-  getPost(postId: string): Observable<HttpResponse<PostDto>> {
-    return this.http.get<HttpResponse<PostDto>>(`post/${postId}`);
+  getPost(postId: string): Observable<ApiResponse<PostDto>> {
+    return this.http.get<ApiResponse<PostDto>>(`post/${postId}`);
   }
 
-  deletePost(postId: string): Observable<HttpResponse<any>> {
-    return this.http.delete<HttpResponse<PostDto>>(`post/${postId}`);
+  deletePost(postId: string): Observable<ApiResponse<{ id: string }>> {
+    return this.http.delete<ApiResponse<{ id: string }>>(`post/${postId}`);
   }
 
   UpdatePost(
     postId: string,
     updatedPost: PostDto
-  ): Observable<HttpResponse<PostDto[]>> {
-    return this.http.put<HttpResponse<PostDto[]>>(
-      `post/${postId}`,
-      updatedPost
-    );
+  ): Observable<ApiResponse<PostDto>> {
+    return this.http.put<ApiResponse<PostDto>>(`post/${postId}`, updatedPost);
   }
 }

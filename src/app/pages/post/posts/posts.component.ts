@@ -1,3 +1,4 @@
+import { ApiResponse } from './../../../../data/shared/api.response';
 import {
   Component,
   Input,
@@ -7,7 +8,7 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { IsPostLoading, getPosts } from '../../../state/blog/blog.state';
+import { IsPostLoading, getData } from '../../../state/blog/blog.state';
 import { PostDto } from '../../../../services/post/Dto/post.dto';
 import { AppState } from '../../../state/app/app.state';
 import { RouterLink } from '@angular/router';
@@ -17,6 +18,7 @@ import { CommonModule } from '@angular/common';
 import { PaginationComponent } from '../../../components/pagination/pagination.component';
 import { LoadPosts } from '../../../state/blog/blog.action';
 import { BrowserApiService } from '../../../../services/utils/browser.api.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'blog-posts',
@@ -33,13 +35,15 @@ import { BrowserApiService } from '../../../../services/utils/browser.api.servic
   styleUrl: './posts.component.scss',
 })
 export class PostsComponent {
-  posts$ = this.store.select(getPosts);
-  posts!: Signal<PostDto[] | null>;
+  data$ = this.store.select(getData);
+  data!: Signal<ApiResponse<PostDto[]> | null | undefined>;
+  posts = signal<PostDto[] | null>(null);
   isPostLoading$ = this.store.select(IsPostLoading);
   isPostLoading!: Signal<boolean>;
   currentPage = signal<number>(1);
   totalPages = signal<number>(0);
   public itemsPerPage = 10;
+  public ngUnSubscribe = new Subject();
 
   @Input({ required: true, transform: booleanAttribute })
   viewTrending: boolean = false;
@@ -49,8 +53,13 @@ export class PostsComponent {
     private browserApi: BrowserApiService
   ) {
     this.isPostLoading = toSignal(this.isPostLoading$, { initialValue: false });
-    this.posts = toSignal(this.posts$, { initialValue: null });
-    this.totalPages.set(this.posts()?.length! - 1);
+    this.data$.pipe(takeUntil(this.ngUnSubscribe)).subscribe((res) => {
+      this.posts.set(res?.data!);
+      this.totalPages.set(res?.total!);
+    });
+  }
+  ngOnDestroy(): void {
+    this.ngUnSubscribe.complete();
   }
 
   onPageChanged(page: number) {

@@ -1,21 +1,16 @@
 <div class="text-start py-4">
-  <div class="custom-pagination">
-    <a class="prev" (click)="prevPage()">Previous</a>
-    @for (page of pages; track $index) {
-    <ng-container [ngSwitch]="page">
-      <a
-        *ngSwitchCase="currentPage"
-        class="active !text-white cursor-pointer"
-        >{{ page }}</a
-      >
-      <a
-        *ngSwitchDefault
-        (click)="goToPage(page)"
-        class="!text-white cursor-pointer"
-        >{{ page }}</a
-      >
-    </ng-container>
-    }
+  <div class="custom-pagination flex items-center justify-evenly gap-4">
+    <a class="prev cursor-pointer" (click)="prevPage()">Previous</a>
+    <div
+      class="bg-slate-500 rounded text-white w-fit h-fit py-2 px-4 text-center font-bold text-base mx-4"
+    >
+      {{ pages() }}
+    </div>
+    <a
+      (click)="goToPage(currentPage)"
+      class="!text-white bg-black cursor-pointer"
+      >{{ currentPage }}</a
+    >
     <a class="next cursor-pointer" (click)="nextPage()">Next</a>
   </div>
 </div>

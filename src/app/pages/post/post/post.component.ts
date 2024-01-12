@@ -1,6 +1,6 @@
 import { Component, Signal, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { IsPostLoading, getPosts } from '../../../state/blog/blog.state';
+import { IsPostLoading, getData } from '../../../state/blog/blog.state';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../state/app/app.state';
 import { PostDto } from '../../../../services/post/Dto/post.dto';
@@ -28,7 +28,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './post.component.scss',
 })
 export class PostComponent {
-  posts$ = this.store.select(getPosts);
+  posts$ = this.store.select(getData);
   post!: PostDto | undefined;
   postId!: string;
   postDescriptionFirstCharacter!: string;
@@ -69,8 +69,8 @@ export class PostComponent {
   }
 
   getPost(postId: string): void {
-    this.posts$?.pipe(takeUntil(this.ngUnSubscribe)).subscribe((post) => {
-      this.post = post?.find((x) => x.id == postId);
+    this.posts$?.pipe(takeUntil(this.ngUnSubscribe)).subscribe((res) => {
+      this.post = res?.data?.find((x) => x.id == postId);
     });
     this.postDescriptionFirstCharacter = this.post?.text![0]!;
     if (this.browserApi.isBrowser) {

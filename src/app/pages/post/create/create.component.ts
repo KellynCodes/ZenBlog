@@ -1,4 +1,8 @@
-import { errorMessage, successMessage } from '../../../state/blog/blog.state';
+import {
+  IsPostLoading,
+  errorMessage,
+  successMessage,
+} from '../../../state/blog/blog.state';
 import { CreatePostDto } from '../../../../services/post/Dto/post.dto';
 import { Component, Signal, signal } from '@angular/core';
 import { SidebarComponent } from '../../../components/sidebar/sidebar.component';
@@ -25,18 +29,14 @@ import { toSignal } from '@angular/core/rxjs-interop';
 })
 export class CreateComponent {
   public createPostForm!: FormGroup;
-  public isSending = signal<boolean>(false);
-  private successMessage$ = this.store.select(successMessage);
-  private errorMessage$ = this.store.select(errorMessage);
-  private successMessage!: Signal<string | null>;
-  private errorMessage!: Signal<string | null>;
-
+  private IsPostLoading$ = this.store.select(IsPostLoading);
+  public isSending: Signal<boolean>;
   constructor(
     private store: Store<AppState>,
     private fb: FormBuilder,
     private toastr: ToastrService
   ) {
-    this.checkForErrorMessage();
+    this.isSending = toSignal(this.IsPostLoading$, { initialValue: false });
   }
   ngOnInit(): void {
     this.createPostForm = this.fb.group({
@@ -71,35 +71,18 @@ export class CreateComponent {
     return false;
   }
 
-  checkForErrorMessage(): void {
-    this.successMessage = toSignal(this.successMessage$, {
-      initialValue: null,
-    });
-    this.errorMessage = toSignal(this.errorMessage$, { initialValue: null });
-    if (this.successMessage()) {
-      this.toastr.success(this.successMessage()!, 'Post');
-    }
-    if (this.errorMessage()) {
-      this.toastr.error(this.errorMessage()!, 'Post');
-    }
-  }
-
   onSubmit(): void {
-    this.isSending.set(true);
     if (!this.createPostForm.valid) {
-      console.log(this.createPostForm.errors);
       this.toastr.error('Please fill all the fields');
-      this.isSending.set(false);
       return;
     }
-    console.log(uuidv4());
     const post: CreatePostDto = {
       id: uuidv4(),
       image: this.createPostForm.value.image,
       tags: this.createPostForm.value.tags,
       likes: 0,
       text: this.createPostForm.value.content,
-      owner: uuidv4(),
+      owner: '60d0fe4f5311236168a10a07',
       // firstName: this.createPostForm.value.ownerFirstName,
       // lastName: this.createPostForm.value.ownerLastName,
       // picture: this.createPostForm.value.ownerPicture,
@@ -110,6 +93,5 @@ export class CreateComponent {
       updated: new Date().toISOString(),
     };
     this.store.dispatch(CreatePost({ post: post, IsPostLoading: true }));
-    this.isSending.set(false);
   }
 }

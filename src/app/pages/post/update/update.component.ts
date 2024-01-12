@@ -189,6 +189,7 @@ export class UpdateComponent {
     this.store.dispatch(
       UpdatePost({ postId: post?.id, post: post, IsPostLoading: true })
     );
+    this.createPostForm.reset();
     this.isSending.set(false);
   }
 }

@@ -23,14 +23,6 @@ const _postReducer = createReducer(
     };
   }),
 
-  on(postActions.UpdatePost, (state, action) => {
-    return {
-      ...state,
-      IsLoading: true,
-      errorMessage: null,
-    };
-  }),
-
   on(postActions.CreatePost, (state, action) => {
     return {
       ...state,
@@ -40,15 +32,25 @@ const _postReducer = createReducer(
   }),
 
   on(postActions.CreatePostSuccess, (state, action) => {
-    const data: ApiResponse<PostDto[]> = {
-      data: [...state.data?.data!, action.post],
-      limit: state.data?.limit! + 1,
-      page: state.data?.page! + 1,
-      total: state.data?.total! + 1,
-    };
+    if (action.post != null) {
+      const data: ApiResponse<PostDto[]> = {
+        data: [action.post, ...state.data?.data!],
+        limit: state.data?.limit! + 1,
+        page: state.data?.page! + 1,
+        total: state.data?.total! + 1,
+      };
+      return {
+        ...state,
+        IsLoading: false,
+        successMessage: null,
+        data: data,
+      };
+    }
     return {
       ...state,
-      data: data,
+      IsLoading: false,
+      successMessage: null,
+      data: state.data,
     };
   }),
 
@@ -61,7 +63,7 @@ const _postReducer = createReducer(
   }),
 
   on(postActions.DeletePostSuccess, (state, action) => {
-    const posts = state.data?.data as PostDto[];
+    const posts = state.data?.data;
     const newPosts = posts!.filter((course) => course.id !== action.postId);
     const data: ApiResponse<PostDto[]> = {
       data: newPosts,
@@ -77,6 +79,14 @@ const _postReducer = createReducer(
     };
   }),
 
+  on(postActions.UpdatePost, (state, action) => {
+    return {
+      ...state,
+      IsLoading: true,
+      errorMessage: null,
+    };
+  }),
+
   on(postActions.UpdatePostSuccess, (state, action) => {
     const data: ApiResponse<PostDto[]> = {
       data: [...state?.data?.data!, action.post],
@@ -84,9 +94,13 @@ const _postReducer = createReducer(
       page: state.data?.page!,
       total: state.data?.total!,
     };
+    console.log('before', state.data);
+    console.log('after', data);
     return {
       ...state,
       data: data,
+      IsLoading: false,
+      successMessage: null,
     };
   }),
 

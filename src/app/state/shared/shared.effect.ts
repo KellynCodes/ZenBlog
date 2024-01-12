@@ -5,6 +5,7 @@ import { of, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app/app.state';
 import { ToastrService } from 'ngx-toastr';
+import { ResetPostFetchState } from '../blog/blog.action';
 
 @Injectable()
 export class SharedEffect {
@@ -31,6 +32,7 @@ export class SharedEffect {
         ofType(setErrorMessage),
         tap(() => {
           setTimeout(() => {
+            this.store.dispatch(ResetPostFetchState());
             this.store.dispatch(
               resetErrorMessage({
                 isSuccessful: false,

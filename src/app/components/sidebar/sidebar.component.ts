@@ -16,6 +16,7 @@ import { CommonModule } from '@angular/common';
 import { LoaderComponent } from '../loader/loader.component';
 import { Gallery, GalleryItem, IframeItem } from 'ng-gallery';
 import { LightboxModule } from 'ng-gallery/lightbox';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'blog-sidebar',
@@ -36,6 +37,7 @@ export class SidebarComponent implements OnChanges {
   ];
 
   items!: GalleryItem[];
+  public ngUnSubscribe = new Subject();
 
   @Input({ required: false }) post!: PostDto;
 
@@ -43,11 +45,12 @@ export class SidebarComponent implements OnChanges {
     this.isPostLoading = toSignal(this.isPostLoading$, {
       initialValue: false,
     });
-    this.posts.set(
-      toSignal(this.posts$, {
-        initialValue: null,
-      })()?.data!
-    );
+    this.posts$.pipe(takeUntil(this.ngUnSubscribe)).subscribe((res) => {
+      this.posts.set(res?.data!);
+    });
+  }
+  ngOnDestroy(): void {
+    this.ngUnSubscribe.complete();
   }
 
   ngOnChanges(changes: SimpleChanges): void {

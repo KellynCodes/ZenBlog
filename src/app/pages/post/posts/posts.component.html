@@ -1,12 +1,45 @@
 <!-- ======= Post Grid Section ======= -->
 @if(isPostLoading()){
 <blog-loader loadingText="Loading Post..." />
-}@else if(posts()){
+}@else if(posts()){ @if(displayGallery){
+<gallery
+  class="relative"
+  id="PROJECT_GALLERY"
+  imageSize="cover"
+  [autoPlay]="true"
+>
+  <ng-container *galleryImageDef="let item; let active = active">
+    <div
+      *ngIf="active"
+      class="min-h-16 bg-white rounded-md absolute top-8 flex items-center justify-center p-4"
+    >
+      <a
+        class="text-black text-center font-bold"
+        routerLink="/post/{{ item?.args }}"
+      >
+        {{ item?.alt }}
+      </a>
+    </div>
+  </ng-container>
+  <div *galleryItemDef="let item; let type = type">
+    <a routerLink="/post/{{ item?.args }}">
+      <div *ngIf="type === 'image'">
+        <img [src]="item?.src" />
+      </div>
+      <div *ngIf="type === 'video'">
+        <video>
+          <source [src]="item?.src" />
+        </video>
+      </div>
+    </a>
+  </div>
+</gallery>
+}
 <section id="posts" class="posts !mt-8">
   <div class="container" data-aos="fade-up">
     <div class="row g-5">
       <div class="col-lg-4">
-        <div class="post-entry-1 lg">
+        <div class="post-entry-1 hidden md:block lg">
           <a [routerLink]="['/post', posts()![0].id]"
             ><img [src]="posts()![0].image" alt="" class="img-fluid"
           /></a>

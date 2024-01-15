@@ -1,6 +1,6 @@
 import { AppState } from './../../state/app/app.state';
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit, Signal, signal } from '@angular/core';
+import { Component, OnDestroy, Signal, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LoaderComponent } from '../../components';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
@@ -27,26 +27,13 @@ import { ApiResponse } from '../../../data/shared/api.response';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnDestroy {
   data$ = this.store.select(getData);
   data!: Signal<ApiResponse<PostDto[]> | null>;
-  posts = signal<any>(null);
+  posts = signal<PostDto[] | null>(null);
   isPostLoading$ = this.store.select(IsPostLoading);
   isPostLoading!: Signal<boolean>;
   public ngUnSubscribe = new Subject();
-
-  constructor(private store: Store<AppState>) {
-    this.isPostLoading = toSignal(this.isPostLoading$, { initialValue: false });
-    this.data$.pipe(takeUntil(this.ngUnSubscribe)).subscribe((res) => {
-      this.posts.set(res?.data);
-    });
-  }
-  ngOnDestroy(): void {
-    this.ngUnSubscribe.complete();
-  }
-
-  ngOnInit(): void {}
-
   sliderConfig = {
     dots: true,
     draggable: true,
@@ -58,4 +45,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     slidesToScroll: 1,
     initialSlide: 0,
   };
+
+  constructor(private store: Store<AppState>) {
+    this.isPostLoading = toSignal(this.isPostLoading$, { initialValue: false });
+    this.data$.pipe(takeUntil(this.ngUnSubscribe)).subscribe((res) => {
+      this.posts.set(res?.data!);
+    });
+  }
+  ngOnDestroy(): void {
+    this.ngUnSubscribe.complete();
+  }
 }

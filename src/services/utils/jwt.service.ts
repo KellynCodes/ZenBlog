@@ -1,11 +1,9 @@
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, createAction, props } from '@ngrx/store';
 import { AppState } from '../../app/state/app/app.state';
-import { LoginSuccessDto } from '../auth/Dto/LoginSuccessDto';
 import { setErrorMessage } from '../../app/state/shared/shared.action';
 import { BrowserApiService } from './browser.api.service';
-import { GetUserSuccess } from '../../app/state/auth/auth.action';
 import { UserDto } from '../user/Dto/user.dto';
 
 @Injectable({
@@ -56,3 +54,15 @@ export class JwtService {
     }
   }
 }
+
+export interface LoginSuccessDto {
+  user: any;
+  accessToken: string;
+  refreshToken: string;
+  expiryTimeStamp: string;
+}
+
+export const GetUserSuccess = createAction(
+  '[AUTH] Get User Success',
+  props<LoginSuccessDto>()
+);

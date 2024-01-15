@@ -40,8 +40,8 @@
   <!-- End Hero Slider Section -->
 
   @defer {
-  <blog-posts viewTrending="false" />
-  } @placeholder {
+  <blog-posts viewTrending="false" displayGallery="false" />
+  } @loading() {
   <blog-loader loadingText="Loading post..." />
   }@error {
   <blog-empty message="Failed to load posts. Refresh this page. " />

@@ -51,7 +51,6 @@ export class NavbarComponent {
       const searchKeyword: string = this.searchForm.value['searchKeyword'];
       this.router.navigateByUrl(`/blog?search=${searchKeyword}`);
     } catch (error: any) {
-      this.isSending.set(false);
       this.toastr.error('Something unexpected. Try again.');
     }
   }

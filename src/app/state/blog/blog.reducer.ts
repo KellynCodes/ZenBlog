@@ -89,13 +89,11 @@ const _postReducer = createReducer(
 
   on(postActions.UpdatePostSuccess, (state, action) => {
     const data: ApiResponse<PostDto[]> = {
-      data: [...state?.data?.data!, action.post],
+      data: [ action.post, ...state?.data?.data!],
       limit: state.data?.limit!,
       page: state.data?.page!,
       total: state.data?.total!,
     };
-    console.log('before', state.data);
-    console.log('after', data);
     return {
       ...state,
       data: data,

@@ -81,7 +81,6 @@ export class SearchResultComponent implements OnInit {
   }
 
   onPageChanged(page: number) {
-    console.log(page);
     this.currentPage.set(page);
     this.store.dispatch(
       LoadPosts({

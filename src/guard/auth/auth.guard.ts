@@ -1,14 +1,13 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../state/app/app.state';
 import { map } from 'rxjs';
-import * as fromAuth from '../../modules/auth/state/auth/auth.selector';
+import { AppState } from '../../app/state/app/app.state';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const store = inject(Store<AppState>);
-  return store.select(fromAuth.selectToken).pipe(
+  return store.select('fromAuth.selectToken').pipe(
     map((token) => {
       if (!token) {
         return router.createUrlTree(['/auth/login']);

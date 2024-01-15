@@ -20,7 +20,6 @@ const _sharedReducer = createReducer(
   }),
 
   on(sharedActions.resetErrorMessage, (state, { message, isSuccessful }) => {
-    console.log(message);
     return {
       ...state,
       isSuccessful: isSuccessful,

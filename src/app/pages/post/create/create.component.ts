@@ -1,8 +1,4 @@
-import {
-  IsPostLoading,
-  errorMessage,
-  successMessage,
-} from '../../../state/blog/blog.state';
+import { IsPostLoading } from '../../../state/blog/blog.state';
 import { CreatePostDto } from '../../../../services/post/Dto/post.dto';
 import { Component, Signal, signal } from '@angular/core';
 import { SidebarComponent } from '../../../components/sidebar/sidebar.component';

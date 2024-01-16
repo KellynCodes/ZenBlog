@@ -1,7 +1,7 @@
 <!-- ======= Post Grid Section ======= -->
 @if(isPostLoading()){
 <blog-loader loadingText="Loading Post..." />
-}@else if(posts()){ @if(displayGallery){
+}@else if(posts()){ @if(displayGallery){ @defer(){
 <gallery
   class="relative"
   id="PROJECT_GALLERY"
@@ -34,7 +34,11 @@
     </a>
   </div>
 </gallery>
-}
+}@loading(minimum 500ms){
+<blog-loader loadingText="Loading post gallery..." />
+}@error {
+<blog-empty message="Failed to Load post gallery. Please refresh this page!" />
+} }
 <section id="posts" class="posts !mt-8">
   <div class="container" data-aos="fade-up">
     <div class="row g-5">

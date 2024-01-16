@@ -165,7 +165,6 @@ export class UpdateComponent {
   onSubmit(): void {
     this.isSending.set(true);
     if (!this.createPostForm.valid) {
-      console.log(this.createPostForm.errors);
       this.toastr.error('Please fill all the fields');
       this.isSending.set(false);
       return;

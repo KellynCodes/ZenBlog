@@ -28,13 +28,11 @@ export class PaginationComponent implements OnChanges {
     if (changes['currentPage']) {
       const newPage = changes['currentPage'].currentValue;
       const pages = this.totalPages - newPage * this.itemsPerPage;
-      console.log('new total pages', pages);
       this.pages.set(pages);
       return;
     }
 
     this.pages.set(this.totalPages - this.currentPage * this.itemsPerPage);
-    console.log(this.pages);
   }
 
   prevPage() {
